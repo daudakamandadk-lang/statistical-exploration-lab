@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "question": "How do measurements vary together and across segments?",
+  "input": {
+    "path": "../data/local/observations.csv"
+  },
+  "observation": {
+    "grain": "one row per recorded observation",
+    "unit": "observation",
+    "key": ["record_id"]
+  },
+  "fields": {
+    "identifiers": ["record_id"],
+    "numeric": ["measurement_x", "measurement_y"],
+    "categorical": ["segment", "group"],
+    "excluded": []
+  },
+  "minimum_samples": {
+    "numeric_pair": 3,
+    "categorical_pair": 3,
+    "group": 2
+  },
+  "relationships": {
+    "numeric_pairs": [["measurement_x", "measurement_y"]],
+    "numeric_methods": ["pearson", "spearman"],
+    "categorical_pairs": [["segment", "group"]],
+    "group_summaries": [
+      {"group_by": "segment", "measure": "measurement_x"}
+    ]
+  }
+}
