@@ -1,4 +1,4 @@
-"""A deliberately small, strict configuration contract for the first learning build."""
+"""Strict version 1 configuration contract for statistical exploration."""
 
 import json
 from pathlib import Path

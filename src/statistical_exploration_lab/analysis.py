@@ -66,7 +66,7 @@ def analyze_frame(data, config, source=None):
             for item in relationships['group_summaries']],
         'limitations': ['Descriptive associations do not establish causation.',
                         'Different pairs may use different observations.',
-                        'No hypothesis tests, fitted models, joins or lending decisions are performed.'],
+                        'No hypothesis tests, fitted models, joins or automated decisions are performed.'],
     }
     if report['source'].get('kind') == 'generated_demo':
         report['limitations'].append('Demo patterns are deliberately generated, not empirical evidence.')

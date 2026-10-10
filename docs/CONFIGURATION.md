@@ -4,10 +4,10 @@ Start from [the complete example](../examples/exploration.json). The runner acce
 one JSON configuration through `--config` or generates a temporary example through
 `--demo`. Supply the output directory separately with `--output`.
 
-Unknown keys are rejected, including nested keys. Settings from other prototypes
-such as `selection`, `missingness`, `inference`, `output`, `format`, `read_only` or
-field `units` are not part of this version. There are no implicit joins, filters,
-type guesses or imputations to configure.
+All settings listed below are required. Unknown or duplicate keys are rejected,
+including nested keys. Joins, filters, imputation, field units and inference are
+not configurable in version 1. The output destination is a CLI argument rather
+than a configuration setting.
 
 ## Every setting
 
@@ -42,7 +42,7 @@ and `categorical_pair` and `group` are at least `1`. Increase them deliberately
 for your question. Sample standard deviation requires at least two usable values
 even if a smaller group threshold is allowed by the configuration.
 
-## Declare the table before asking about relationships
+## Observation contract
 
 1. Write the question and describe the row grain. Repeated observations from one
    person or device are still separate rows; this lab does not correct dependence
@@ -58,11 +58,17 @@ even if a smaller group threshold is allowed by the configuration.
 
 Every declared field, including an excluded field, must exist in the CSV. Other
 CSV columns may exist and are recorded as ignored. Numeric conversion rejects
-invalid nonmissing text rather than silently turning it into missing data. Identifiers
-and categories are read as strings, preserving values such as `001`. Only empty
-CSV cells are treated as missing; a literal category label such as `NA` remains
-a label. Missing
-keys or duplicate combined keys stop the run before exploration.
+invalid nonmissing text rather than silently turning it into missing data.
+Identifiers and categories are read as strings, preserving values such as `001`.
+Only empty CSV cells are treated as missing; a literal category label such as
+`NA` remains a label. Missing, blank or duplicate combined keys stop the run
+before exploration.
+
+The CSV must be comma-separated UTF-8, with or without a UTF-8 byte-order mark.
+Headers must be unique and nonblank. Quoting is checked strictly, and every
+record must have the header's number of fields. Numeric integer values must be
+exactly representable at the floating-point calculation boundary; otherwise the
+run rejects them before a silently rounded value can affect ranks or summaries.
 
 ## Missing observations and report paths
 
@@ -78,19 +84,22 @@ The output directory must not already exist. To compare configurations, create
 separate report folders and retain their JSON evidence.
 
 The source filename, byte count and SHA-256 fingerprint identify the input in a
-report.
-Absolute resolved machine paths are not added to report metadata. The exact
-configuration is retained, so prefer portable relative input paths when sharing
-a configuration.
+report. Absolute resolved machine paths are not added to source metadata. The
+exact configuration is retained, so an explicitly supplied absolute input path
+will remain in that configuration. Prefer portable relative paths for shared
+configurations and inspect report contents before publishing them.
 
 ## Common errors
 
 | Error | What to check |
 | --- | --- |
 | Input not found | Resolve `input.path` from the configuration's folder, not your terminal's folder. |
-| Unknown setting | Compare your JSON with the supported version 1 example; remove prototype-only settings. |
+| Unknown setting | Compare your JSON with the supported version 1 example; remove unsupported settings. |
 | Missing declared column | Inspect the CSV header for spelling/case and update the role lists deliberately. |
 | Numeric conversion failure | Find text or formatting in a declared numeric column; fix the source or reconsider the role. |
 | Key missing or duplicated | Confirm the row grain and the complete key, especially for repeated observations. |
 | Invalid relationship field | Match each relationship's fields to their declared roles. |
 | Output already exists | Use another folder; inspect the earlier report before removing it yourself. |
+
+See [Troubleshooting](TROUBLESHOOTING.md) for parser errors, precision limits,
+skipped-result reasons and result-specific denominator checks.
