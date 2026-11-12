@@ -1,112 +1,102 @@
 # Statistical Exploration Lab
 
-[![CI](https://github.com/daudakamandadk-lang/statistical-exploration-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/daudakamandadk-lang/statistical-exploration-lab/actions/workflows/ci.yml)
+A Python toolkit for investigating data one component at a time. Choose your
+data, question and fields, call the functions you need, then inspect and combine
+their results. Optional investigation recipes can make a repeated task easier
+while keeping the individual calls and choices visible.
 
-Describe distributions and selected relationships in a local CSV, then inspect
-the results in an offline report. Explicit field roles, row keys and usable
-observation counts make each calculation traceable to its input.
+**Available now:** structural profiling, explicit field roles, numeric summaries
+through pandas, and optional user-specified OLS investigation through statsmodels
+with row accounting and diagnostic views. The lab wraps repeated workflow steps;
+it does not reimplement those libraries' statistical algorithms. A separate
+offline renderer remains available for complete legacy reports only.
 
-Version **0.1.0** provides numeric and categorical summaries, Pearson and Spearman
-correlation, contingency tables and numeric summaries by group. It runs locally
-with Python 3.11+, pandas and NumPy. No datasets are bundled; the demo generates
-temporary observations.
+This is a generic investigation toolkit. It does not implement a credit-risk
+engine, PD/LGD/EAD estimates or lending decisions.
 
-## Quick start
+## Investigate selected relationships
 
-Clone the repository, create an environment and generate a demo report.
+Use the [library-backed investigation guide](docs/INVESTIGATION.md) and
+[editable VS Code cells](examples/investigate_relationship.py). Install
+`python -m pip install -e ".[econometrics]"` in the chosen environment for OLS.
+Select the outcome, predictors, missing-row policy and covariance method;
+inspect summaries, coefficient tables, exclusions and optional diagnostic plots.
+The native statsmodels result stays available for direct library use.
 
-**Linux / macOS**
+The lab is standalone. A credit-risk project can use its components while
+owning its data, domain interpretation and lending decisions separately.
 
-```sh
-git clone https://github.com/daudakamandadk-lang/statistical-exploration-lab.git
-cd statistical-exploration-lab
-python3 -m venv .venv
-.venv/bin/python -m pip install -e .
-.venv/bin/python -m statistical_exploration_lab --demo --output reports/demo
+## Try the first investigation
+
+Open [Inspect a table and choose its field roles](examples/inspect_table.py) in
+VS Code with the project's Python environment selected. Run its `# %%` cells
+one at a time to inspect the input, profile its structure, choose field roles
+and review suggestions. It uses a small artificial table by default; the cells
+also show where to supply caller-owned data. No user dataset is bundled.
+
+The functions work directly too:
+
+```python
+from statistical_exploration_lab import profile_structure, type_columns
+
+table = {
+    "record_id": ["r01", "r02", "r03", "r04"],
+    "measurement": [1.2, 2.4, -1.0, 2.0],
+    "group": ["A", "A", "B", "B"],
+}
+structure = profile_structure(
+    table,
+    observation_key="record_id",
+    overrides={"measurement": {"semantic_type": "continuous", "sentinels": []}},
+)
+print(structure.gate.status, structure.facts)
+
+if structure.gate.status != "stop":
+    types = type_columns(structure, table)
+    print(types.by_name()["measurement"])
 ```
 
-**Windows PowerShell**
+Here `record_id` is an explicitly confirmed row key. The empty sentinel list
+keeps `-1` as a legitimate measurement. Possible sentinel values and inferred
+roles are labelled suggestions. Pass the same unchanged table from profiling
+to typing.
 
-```powershell
-git clone https://github.com/daudakamandadk-lang/statistical-exploration-lab.git
-Set-Location statistical-exploration-lab
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -e .
-.\.venv\Scripts\python.exe -m statistical_exploration_lab --demo --output reports/demo
-```
+## Choose a component
 
-Open `reports/demo/report.html` in a browser. The report needs no web server or
-internet connection. `report.json` contains the underlying evidence. Choose a
-new output directory for each run; an existing destination is rejected.
+| Component | Input and result | Documentation |
+| --- | --- | --- |
+| `profile_structure` | Table and optional declarations/overrides/key → facts, contracts, findings and gate | [Contract](docs/CONTRACT.md) |
+| `type_columns` | Non-stopped profile and the same table → role suggestions, sentinel candidates and rationale | [Typing](docs/TYPING.md) |
+| `summarize_numeric` | Selected numeric fields → pandas descriptions and missing counts | [Investigation](docs/INVESTIGATION.md) |
+| `fit_ols`, `plot_ols_diagnostics` | Explicit specification → statsmodels result, row evidence and optional diagnostic figure | [Investigation](docs/INVESTIGATION.md) |
+| `render_html`, `write_report` | Complete legacy report dictionary → offline HTML, or a new JSON/HTML directory | [Reporting](docs/REPORTING.md) |
 
-The `statistical-lab` command is also installed in the environment. The commands
-above use the environment's Python directly, so activation is optional.
+The inspection playground composes the first two calls explicitly. The separate
+relationship example uses library-backed helpers; neither manufactures a legacy
+report around its new results. General probability/distribution helpers, automatic
+method selection and credit-risk models are not implemented.
+Result mappings are read-only; `to_dict()` provides a detached form for
+inspection and explicit reuse.
 
-## Analyze your own CSV
+## Setup and development
 
-Adapt [examples/exploration.json](examples/exploration.json) to your question,
-CSV path, row grain, key columns and field roles. Its referenced input file is
-not supplied. Run from the repository root, using the same environment:
+Python 3.11+ is required. Follow [Contributing](CONTRIBUTING.md) for setup and
+checks. The deliberately retained dependency stack includes pandas, NumPy,
+SciPy, matplotlib and PyYAML. The renderer's implementation uses the standard
+library, but normal package imports also load the profiling code.
 
-```sh
-# Linux / macOS
-.venv/bin/python -m statistical_exploration_lab --config examples/exploration.json --output reports/my-analysis
-```
+Read [Architecture](docs/ARCHITECTURE.md) for component boundaries,
+[Build plan](docs/BUILD_PLAN.md) for the next requested work and
+[Status](docs/STATUS.md) for current limits and verification evidence. The
+[documentation index](docs/README.md) links preserved earlier designs.
+See [Migration](docs/MIGRATION.md) when updating code written against the initial
+0.1 profiling/typing interfaces; there is no restored old analysis CLI.
 
-```powershell
-# Windows PowerShell
-.\.venv\Scripts\python.exe -m statistical_exploration_lab --config examples/exploration.json --output reports/my-analysis
-```
+New statistical calculations are explained and reviewed before implementation:
+purpose, inputs, output meaning, assumptions, a worked example and failure
+boundaries. Tests do not establish learning approval. Source changes and Git
+publication are separate decisions; follow explicit publication instructions
+when provided.
 
-An input path is relative to the configuration file's directory. An output path
-is relative to the command's working directory. See the
-[configuration reference](docs/CONFIGURATION.md) for every supported setting.
-
-| Field role | Behavior |
-| --- | --- |
-| Identifier | Preserved as text; combined key values must be present, nonblank and unique |
-| Numeric | Parsed explicitly; invalid numeric text and integer precision loss stop the run |
-| Categorical | Preserved as text, including labels such as `001` and `NA` |
-| Excluded | Must be present but does not enter calculations |
-
-Only empty CSV cells are treated as missing. Numeric calculations use finite
-values; categorical pairs use complete observations. No values are imputed.
-
-## Results and interpretation
-
-| Calculation | Output |
-| --- | --- |
-| Numeric distribution | Counts, minimum, quartiles, median, maximum, mean and sample standard deviation |
-| Categorical distribution | Counts and proportions among nonmissing observations |
-| Numeric pair | Selected Pearson and/or average-tie-rank Spearman coefficients |
-| Categorical pair | Contingency counts and percentages within each row category |
-| Numeric measure by group | Counts, exclusions and descriptive statistics for each eligible group |
-
-The HTML report includes tables, categorical frequency bars and skipped reasons.
-Read each result's usable counts and denominator before interpreting it. Constant
-fields, insufficient observations and numerical limits produce explicit skipped
-results rather than invented coefficients.
-
-Each configured run records the exact configuration, source filename, byte count,
-SHA-256 fingerprint, row count and runtime versions. The fingerprint and analysis
-come from the same source bytes. The source CSV is preserved and is not copied
-into the report directory. Reports contain data-derived labels and summaries;
-review them before sharing. Data and generated reports are ignored by Git.
-
-This version does not fit probability distributions, perform hypothesis tests,
-estimate uncertainty, infer causation or build predictive models. Numeric plots,
-interactive controls, joins and filters are not implemented. The CSV is loaded
-into memory; no large-data performance guarantee is made. See
-[calculations and limits](docs/ENGINES.md) and the [roadmap](docs/ROADMAP.md).
-
-## Documentation and development
-
-- [Documentation index](docs/README.md): configuration, calculations and operational guidance.
-- [Troubleshooting](docs/TROUBLESHOOTING.md): input errors, skipped results and report interpretation.
-- [Contributing](CONTRIBUTING.md): editable installs, tests, package builds and change review.
-- [Verification record](docs/VERIFICATION.md): tested runtime, 34 passing checks and verification limits.
-
-Questions and reproducible issues can be filed in
-[GitHub Issues](https://github.com/daudakamandadk-lang/statistical-exploration-lab/issues).
-Use artificial observations in public examples. No distribution license has
-been declared for this repository.
+User datasets, generated reports, domain interpretations and individual learning
+records belong with their owning project. No distribution license is declared.
