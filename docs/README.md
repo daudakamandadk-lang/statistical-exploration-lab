@@ -1,18 +1,30 @@
 # Documentation
 
-Start with the [project README](../README.md) to install the package and generate
-a demo. Then use the references below for a configured analysis or a code change.
+The lab currently supports structural profiling, field-role/type suggestions and
+a separate legacy report renderer. Start with the selected investigation, then
+open the component documentation for the result you are inspecting.
 
 | Document | Purpose |
 | --- | --- |
-| [Configuration](CONFIGURATION.md) | Version 1 schema, field roles, input semantics and output paths |
-| [Engines](ENGINES.md) | Calculation definitions, exclusions, numerical safeguards and report evidence |
-| [Troubleshooting](TROUBLESHOOTING.md) | Diagnose rejected inputs, skipped results and unexpected summaries |
-| [Verification](VERIFICATION.md) | Recorded checks, tested environment and verification boundaries |
-| [Roadmap](ROADMAP.md) | Current functionality and proposed extensions |
-| [Contributing](../CONTRIBUTING.md) | Development environment, tests, packaging and review expectations |
+| [Inspection playground](../examples/inspect_table.py) | Run the first investigation one VS Code cell at a time |
+| [Architecture](ARCHITECTURE.md) | Direct functions, optional recipes, evidence boundaries and separate presentation |
+| [Build plan](BUILD_PLAN.md) | Current inspection work and how to choose the next reviewed component |
+| [Contract](CONTRACT.md) | Profiling inputs, confirmed keys, findings, fingerprints and limits |
+| [Typing](TYPING.md) | Role suggestions, sentinel choices, matching-table handoff and rationale |
+| [Reporting](REPORTING.md) | Retained legacy renderer compatibility and output behavior |
+| [Migration](MIGRATION.md) | Changes from the earlier 0.1 interfaces to the current 0.2 direction |
+| [Status](STATUS.md) | Implemented components, current verification and historical evidence |
+| [Contributing](../CONTRIBUTING.md) | Setup, playable chunks, explanation and verification |
 
-The [example configuration](../examples/exploration.json) includes every required
-setting. It expects a locally supplied CSV; no dataset is included. Saved
-configuration and report JSON preserve what a run requested and calculated.
-Keep domain conclusions and sensitive observations with their owning project.
+## Preserved design references
+
+| Reference | How to read it |
+| --- | --- |
+| [Workbench architecture, 2026-10-12](ARCHITECTURE.workbench-2026-10-12.md) | Verbatim earlier broad design; future ideas and historical claims |
+| [Workbench build plan, 2026-10-12](BUILD_PLAN.workbench-2026-10-12.md) | Verbatim earlier implementation order; superseded by the current plan |
+| [Reset-era architecture](ARCHITECTURE.reset-2026-10-12.md) | Earlier small-calculator/reset design |
+
+These references remain available for context. They are not current feature
+lists or automatic approval to implement later layers. After a break, read
+Status and the current Build plan, then revisit the actual explanation of the
+requested next calculation.
