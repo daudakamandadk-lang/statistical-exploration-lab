@@ -4,11 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "statistical-exploration-lab"
-version = "0.2.0"
+version = "0.3.0"
 description = "Composable table inspection with explicit field roles and reusable result rendering."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = ["pandas>=2.0", "numpy>=1.24", "scipy>=1.10", "matplotlib>=3.7", "PyYAML>=6.0"]
+
+[project.optional-dependencies]
+econometrics = ["statsmodels>=0.14,<0.16"]
 
 [project.urls]
 Repository = "https://github.com/daudakamandadk-lang/statistical-exploration-lab"

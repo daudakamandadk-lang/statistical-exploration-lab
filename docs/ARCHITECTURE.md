@@ -39,6 +39,16 @@ a shared convention is justified by real use.
 
 ## What is implemented
 
+### Library-backed investigation helpers
+
+`investigation.py` delegates numeric summaries to pandas and a selected numeric
+OLS specification to statsmodels. It records the caller's choices and usable-row
+positions, exposes the original fitted library result and returns optional
+diagnostic figures without refitting. See [Investigation](INVESTIGATION.md).
+These are generic statistical-lab utilities, separate from any private credit-risk
+engine. Library algorithms are reused rather than reimplemented; further wrappers
+are justified by actual repetitive work, not by the existence of a library API.
+
 ### Structural profile and field contract
 
 `profile_structure` accepts a DataFrame or dict-of-lists, optional declarations
@@ -101,8 +111,8 @@ actual selected results. See [Reporting](REPORTING.md).
 
 ## Future statistical work
 
-Probability calculations, descriptive summaries beyond current structure,
-relationships, inference, distribution fitting, visualizations and
+Beyond the selected pandas/OLS workflow, general probability calculations,
+relationship methods, distribution fitting, visualizations and
 credit-specific components remain possible future work. A registry, catalogue
 or broad engine is not a prerequisite to implementing one reviewed function.
 

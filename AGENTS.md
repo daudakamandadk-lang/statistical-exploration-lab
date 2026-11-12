@@ -9,7 +9,8 @@ independent components, optional selected investigations and playable VS Code
 chunks. Earlier workbench/reset designs remain historical references, not
 mandatory prerequisites for every function.
 
-Implemented components are `contract.py` (profiling and contracts),
+Implemented components include `investigation.py` (pandas/statsmodels workflow
+helpers and selected diagnostic views), `contract.py` (profiling and contracts),
 `semantic_typer.py` (typing suggestions) and retained `reporting.py`
 (`render_html`, `write_report`). The renderer requires a complete legacy report;
 it neither calculates statistics nor accepts new profiles directly. Never claim
@@ -24,6 +25,9 @@ and no distribution license is declared.
 
 - Prefer directly callable functions with explicit inputs, meaningful results
   and documented failures. The caller chooses fields and calculations.
+- Use established libraries for statistical algorithms. Add helpers only for
+  repeated preparation, selection, evidence collection or presentation. Keep
+  native library results available; do not wrap every library capability.
 - Optional recipes compose selected functions for a stated outcome. Keep their
   calls and assumptions visible; do not add an orchestration framework for the
   first example.
@@ -46,8 +50,9 @@ and a reviewed explanation of purpose, inputs/outputs, logic, assumptions, a
 small worked example and failure boundaries. Correct gaps before adding the
 smallest understood code. This applies to credit-specific calculations too.
 
-The current requested change covers reviewed profiler/typer fixes, truthful
-documentation and the first playground. It does not approve future statistics.
+The current request includes generic library-backed investigation helpers and
+an editable artificial-data example. It does not authorize private credit-risk
+modeling, automated method selection or invented learner sign-off.
 Explicit user requests can change the earlier build order; use the current
 [Build plan](docs/BUILD_PLAN.md).
 

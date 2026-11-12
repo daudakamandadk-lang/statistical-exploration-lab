@@ -1,5 +1,10 @@
 # Documentation
 
+Start a generic, user-specified econometric investigation with
+[Library-backed investigation](INVESTIGATION.md) and its editable example.
+This workflow uses pandas/statsmodels and does not implement private credit-risk
+modeling.
+
 The lab currently supports structural profiling, field-role/type suggestions and
 a separate legacy report renderer. Start with the selected investigation, then
 open the component documentation for the result you are inspecting.

@@ -1,10 +1,12 @@
 # Status
 
-**Current revision: 2026-11-12 — table inspection and field-role selection.**
+**Current revision: 2026-11-12 — library-backed investigation workflow (0.3.0).**
 The package contains structural profiling/contracts, semantic typing suggestions
 and the retained offline legacy renderer. The current requested work improves
 their boundaries and provides a playable inspection example. Statistical
-calculators and the larger workbench remain future work.
+methods beyond the selected pandas/OLS workflow and the larger workbench remain
+future work. This is generic statistical-lab work; no private credit-risk model
+or lending policy is implemented.
 
 | Component | Current position |
 | --- | --- |
@@ -13,7 +15,10 @@ calculators and the larger workbench remain future work.
 | Result inspection | Read-only mappings with detached `to_dict()` conversion |
 | `examples/inspect_table.py` | First selected investigation; VS Code cells and ordinary explicit composition |
 | Offline renderer | Retained; complete legacy report dictionaries only |
-| Probability/statistical calculations, new plots and inference | Not implemented |
+| Numeric summaries | pandas-backed selected-field description and missing counts |
+| Selected OLS investigation | Optional statsmodels fit with explicit covariance/missing choices, row evidence and native result access |
+| Diagnostic views | Residual/fitted and normal Q-Q views of the supplied fit |
+| General probability/distribution helpers and other statistical models | Not implemented |
 | Registry, catalogue, broad engines and credit-specific components | Future options; not prerequisites for direct function use |
 
 The current architecture is [component composition](ARCHITECTURE.md).
@@ -23,13 +28,14 @@ references. Their historical status text must not be read as the current API.
 
 ## Current verification
 
-Local checks on 2026-11-12 used CPython 3.14.8, pandas 3.0.6 and NumPy 2.5.3:
+Local checks on 2026-11-12 used CPython 3.14.8, pandas 3.0.6, NumPy 2.5.3
+and statsmodels 0.15.0:
 
-- 67 tests passed, including the retained renderer and new component-boundary
-  and playground checks.
+- 75 tests passed, including library-backed known answers, selected-sample
+  accounting, failure boundaries, plotting and the previous inspection checks.
 - The six-cell table-inspection example ran from start to finish.
-- A 0.2.0 wheel built successfully. Current source and packaged behavior were
-  checked separately from the earlier renderer-only reset.
+- The 0.2.0 wheel and packaged behavior were checked for the prior milestone.
+  The new workflow's package build and editable example are verified separately.
 - Active documentation links and current-file whitespace were checked.
 
 These are local results for this revision. Check the repository's GitHub Actions

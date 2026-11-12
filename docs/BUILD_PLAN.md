@@ -11,6 +11,13 @@ implemented prerequisites.
 
 ## Current work
 
+The next selected workflow reuses pandas and statsmodels for a generic
+relationship investigation: explicit variable selection, numeric summaries,
+OLS fit, row accounting and optional diagnostic views. See
+[Investigation](INVESTIGATION.md). It is standalone lab work, not credit-risk
+engine modeling. Reuse library algorithms and automate repeated workflow tasks;
+retain the caller's choices and native library outputs.
+
 1. **Make existing profiling and typing dependable.** Separate key suggestions
    from a confirmed observation key; validate role declarations and overrides;
    keep explicit sentinel lists final; make inferred sentinel masking opt-in;

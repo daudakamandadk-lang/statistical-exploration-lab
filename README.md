@@ -5,11 +5,23 @@ data, question and fields, call the functions you need, then inspect and combine
 their results. Optional investigation recipes can make a repeated task easier
 while keeping the individual calls and choices visible.
 
-**Available now:** structural profiling, declared field roles and semantic type
-suggestions. An offline renderer is also retained for complete legacy reports;
-it cannot render the new profile/typing results directly. Statistical tests,
-probability calculations, distribution fitting and new result presentation are
-future work.
+**Available now:** structural profiling, explicit field roles, numeric summaries
+through pandas, and optional user-specified OLS investigation through statsmodels
+with row accounting and diagnostic views. The lab wraps repeated workflow steps;
+it does not reimplement those libraries' statistical algorithms. A separate
+offline renderer remains available for complete legacy reports only.
+
+This is a generic investigation toolkit. It does not implement a credit-risk
+engine, PD/LGD/EAD estimates or lending decisions.
+
+## Investigate selected relationships
+
+Use the [library-backed investigation guide](docs/INVESTIGATION.md) and
+[editable VS Code cells](examples/investigate_relationship.py). Install
+`python -m pip install -e ".[econometrics]"` in the chosen environment for OLS.
+Select the outcome, predictors, missing-row policy and covariance method;
+inspect summaries, coefficient tables, exclusions and optional diagnostic plots.
+The native statsmodels result stays available for direct library use.
 
 The lab is standalone. A credit-risk project can use its components while
 owning its data, domain interpretation and lending decisions separately.
@@ -55,10 +67,14 @@ to typing.
 | --- | --- | --- |
 | `profile_structure` | Table and optional declarations/overrides/key → facts, contracts, findings and gate | [Contract](docs/CONTRACT.md) |
 | `type_columns` | Non-stopped profile and the same table → role suggestions, sentinel candidates and rationale | [Typing](docs/TYPING.md) |
+| `summarize_numeric` | Selected numeric fields → pandas descriptions and missing counts | [Investigation](docs/INVESTIGATION.md) |
+| `fit_ols`, `plot_ols_diagnostics` | Explicit specification → statsmodels result, row evidence and optional diagnostic figure | [Investigation](docs/INVESTIGATION.md) |
 | `render_html`, `write_report` | Complete legacy report dictionary → offline HTML, or a new JSON/HTML directory | [Reporting](docs/REPORTING.md) |
 
-The playground composes the first two calls explicitly. It does not calculate
-correlations, run tests or manufacture a legacy report around their outputs.
+The inspection playground composes the first two calls explicitly. The separate
+relationship example uses library-backed helpers; neither manufactures a legacy
+report around its new results. General probability/distribution helpers, automatic
+method selection and credit-risk models are not implemented.
 Result mappings are read-only; `to_dict()` provides a detached form for
 inspection and explicit reuse.
 
