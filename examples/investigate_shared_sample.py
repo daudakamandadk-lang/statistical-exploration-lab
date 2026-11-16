@@ -2,7 +2,8 @@
 import numpy as np
 import pandas as pd
 
-from statistical_exploration_lab import fit_ols, select_complete_cases
+from statistical_exploration_lab import (fit_ols, select_complete_cases,
+    profile_structure, type_columns, prepare_missing_values)
 
 OUTCOME = 'response'
 BASE_PREDICTORS = ['measure_a']
@@ -21,17 +22,33 @@ table = pd.DataFrame({
 })
 table['response'] = (2 + 3 * table['measure_a'] - 0.5 * table['measure_b']
                      + rng.normal(scale=0.5, size=30))
-table.loc[[3, 9], 'measure_b'] = np.nan
+table.loc[3, 'measure_b'] = -999  # Artificial source's documented missing code.
+table.loc[9, 'measure_b'] = np.nan
+
+# %% Inspect raw data with confirmed rules, then prepare an explicit copy.
+MISSING_RULES = {'measure_b': [-999], 'measure_a': []}
+profile = profile_structure(table, observation_key='record_id',
+    overrides={name: {'sentinels': values} for name, values in MISSING_RULES.items()})
+for finding in profile.findings:
+    print(finding.severity, finding.message)
+if profile.gate.status == 'stop':
+    raise ValueError('Resolve structural findings before continuing')
+types = type_columns(profile, table)
+print('Role suggestions:', {c.name: c.semantic_type for c in types.columns})
+prepared = prepare_missing_values(table, rules=MISSING_RULES)
+print('Newly masked source positions:', dict(prepared.changed_positions))
+analysis_table = prepared.table
+# Raw table is preserved. Use analysis_table consistently below.
 
 # %% Review an explicitly shared sample before fitting either specification.
 fields = list(dict.fromkeys([OUTCOME, *BASE_PREDICTORS, *EXTENDED_PREDICTORS]))
 # Show the sample difference that separate missing-row dropping would create.
 available_rows = pd.Series({
-    'base alone': table[[OUTCOME, *BASE_PREDICTORS]].notna().all(axis=1).sum(),
-    'extended alone': table[[OUTCOME, *EXTENDED_PREDICTORS]].notna().all(axis=1).sum(),
+    'base alone': analysis_table[[OUTCOME, *BASE_PREDICTORS]].notna().all(axis=1).sum(),
+    'extended alone': analysis_table[[OUTCOME, *EXTENDED_PREDICTORS]].notna().all(axis=1).sum(),
 }, name='complete rows')
 print(available_rows)
-sample = select_complete_cases(table, columns=fields)
+sample = select_complete_cases(analysis_table, columns=fields)
 print('Rows used:', sample.used_rows, '/', sample.total_rows)
 print('Original excluded positions and missing fields:', dict(sample.missing_by_position))
 print(sample.table.head())

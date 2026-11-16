@@ -1,6 +1,6 @@
 # Status
 
-**Current revision: 2026-11-16 — explicit shared-sample preparation (0.3.0).**
+**Current revision: 2026-11-16 — connected preparation and investigation (0.3.0).**
 The package contains structural profiling/contracts, semantic typing suggestions
 and the retained offline legacy renderer. The current requested work improves
 their boundaries and provides a playable inspection example. Statistical
@@ -16,6 +16,7 @@ or lending policy is implemented.
 | `examples/inspect_table.py` | First selected investigation; VS Code cells and ordinary explicit composition |
 | Offline renderer | Retained; complete legacy report dictionaries only |
 | Numeric summaries | pandas-backed selected-field description and missing counts |
+| Confirmed missing-value preparation | Explicit rules applied to a copied table with changed positions and fingerprints |
 | Complete-case selection | Explicit selected fields, copied table, original positions and missing-field reasons; no automatic sample choice |
 | Selected OLS investigation | Optional statsmodels fit with explicit covariance/missing choices, row evidence and native result access |
 | Diagnostic views | Residual/fitted and normal Q-Q views of the supplied fit |
@@ -32,7 +33,8 @@ references. Their historical status text must not be read as the current API.
 Local checks on 2026-11-16 used CPython 3.14.8, pandas 3.0.6, NumPy 2.5.3
 and statsmodels 0.15.0:
 
-- 79 tests passed, including shared-sample selection, duplicate index labels,
+- 83 tests passed, including supplied-constant detection, confirmed preparation,
+  contextual scalar errors, shared-sample selection, duplicate index labels,
   nullable dtypes, exclusion reasons, copied-table edits and two-fit handoff.
 - The artificial shared-sample example used 28/30 rows and reported original
   excluded positions 3 and 9 before fitting two chosen specifications.
@@ -65,3 +67,5 @@ normal package imports.
 
 Historical checks do not establish behavior of the changed key, sentinel,
 fingerprint or result-inspection interfaces, nor a new hosted CI result.
+
+CI now checks Python 3.11 and 3.14. Hosted results must be checked for the current commit.

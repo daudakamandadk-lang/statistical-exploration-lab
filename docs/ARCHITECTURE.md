@@ -16,10 +16,10 @@ the current boundaries.
 
 | Responsibility | Purpose | Current position |
 | --- | --- | --- |
-| Direct functions | Accept explicit inputs, check their boundaries and return an inspectable result | Structural profiling and typing exist |
+| Direct functions | Accept explicit inputs, check their boundaries and return an inspectable result | Profiling, typing, confirmed missing-value preparation, sample selection and library-backed OLS exist |
 | Optional investigation recipes | Combine selected calls for a stated question or outcome | The table-inspection playground demonstrates this in ordinary Python |
 | Shared result/storage conventions | Support reuse when several actual components need a common form | Existing dataclasses and detached dictionaries suffice for the present components; no registry exists |
-| Presentation | Display supplied results without recalculating them | Retained legacy renderer only; new profile/typing display uses direct inspection |
+| Presentation | Display supplied results without recalculating them | Legacy renderer; direct result tables and optional OLS diagnostic figures |
 
 The intended composition is:
 

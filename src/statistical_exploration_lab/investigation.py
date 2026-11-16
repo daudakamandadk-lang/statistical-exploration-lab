@@ -129,11 +129,12 @@ def fit_ols(data, *, outcome, predictors, missing, cov_type,
         raise ValueError('More usable rows than fitted parameters are required')
     if np.linalg.matrix_rank(design.to_numpy()) != design.shape[1]:
         raise ValueError('Selected design is rank deficient; review predictors explicitly')
-    fitted = sm.OLS(frame[outcome], design, missing='raise', hasconst=intercept).fit(
+    fitted = sm.OLS(frame[outcome], design, missing='raise', hasconst=True if intercept else None).fit(
         cov_type=cov_type, use_t=use_t)
     choices = MappingProxyType({
         'outcome': outcome, 'predictors': tuple(predictors), 'missing': missing,
         'cov_type': cov_type, 'intercept': intercept, 'use_t': use_t,
+        'design_has_constant': bool(fitted.model.k_constant),
         'pandas_version': pd.__version__, 'numpy_version': np.__version__,
         'statsmodels_version': statsmodels.__version__,
     })

@@ -162,8 +162,15 @@ def data_fingerprint(table: pd.DataFrame) -> str:
             [_dtype_identity(level.dtype) for level in table.index.levels]
             if isinstance(table.index, pd.MultiIndex)
             else [_dtype_identity(table.index.dtype)]])
-    for index, row in zip(table.index, table.itertuples(index=False, name=None)):
-        update([_scalar_identity(index), [_scalar_identity(value) for value in row]])
+    for position, (index, row) in enumerate(zip(table.index, table.itertuples(index=False, name=None))):
+        encoded = []
+        for name, value in zip(table.columns, row):
+            try:
+                encoded.append(_scalar_identity(value))
+            except TypeError as exc:
+                raise TypeError(f'Column {name!r}, row position {position}: {exc}. '
+                                'Select or normalize the analysis table explicitly.') from exc
+        update([_scalar_identity(index), encoded])
     return 'sha256:' + digest.hexdigest()
 
 

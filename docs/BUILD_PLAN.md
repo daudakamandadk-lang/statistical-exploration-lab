@@ -26,7 +26,7 @@ retain the caller's choices and native library outputs.
    [Inspect a table and choose its field roles](../examples/inspect_table.py).
    Run its VS Code cells to inspect a table, view structural findings, choose
    roles and examine the resulting suggestions. Keep its optional recipe small
-   and its calls visible. This is the selected current task.
+   and its calls visible. This inspection stage is implemented.
 3. **Verify and document actual behavior.** Check boundary failures as well as
    the worked example. Record checks in [Status](STATUS.md). Preserve legacy
    rendering; do not claim it accepts new results.

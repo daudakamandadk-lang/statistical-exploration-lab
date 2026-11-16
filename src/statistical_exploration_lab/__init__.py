@@ -10,12 +10,15 @@ from .contract import (
     data_fingerprint,
     profile_structure,
 )
+from .preparation import PreparedTable, prepare_missing_values
 from .reporting import render_html, write_report
 from .investigation import OLSInvestigation, fit_ols, plot_ols_diagnostics, summarize_numeric
 from .sampling import CompleteCaseSelection, select_complete_cases
 from .semantic_typer import TyperPolicy, TypedColumn, TypeProfile, type_columns
 
 __all__ = [
+    'PreparedTable',
+    'prepare_missing_values',
     'ColumnContract',
     'Finding',
     'GateDecision',

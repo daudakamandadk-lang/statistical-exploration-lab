@@ -111,3 +111,30 @@ remain outside this standalone package.
 
 These libraries supply the statistical implementations. The lab supplies selected
 workflow convenience and visible evidence; the caller supplies interpretation.
+
+
+## Explicit preparation between inspection and analysis
+
+Profiling masks confirmed sentinels internally but preserves the source table.
+Call `prepare_missing_values(table, rules={'measure_b': [-999]})` to obtain an
+explicit prepared copy. Inspect `changed_positions`, then pass `.table` into
+sample selection and fitting. The shared-sample example demonstrates this full
+flow. Rules use the same matching as profiling; no candidate is applied without
+your choice. Existing missing values are not counted as new changes. Inserting
+missing values may change dtypes. Evidence describes creation time only.
+
+All fingerprinted tables require supported scalar cells, including unselected
+columns. Select an analysis table explicitly if source metadata contains lists
+or dictionaries; errors identify the offending column and row position.
+
+`intercept=False` means do not add a constant column. Statsmodels still detects
+a constant already present in the supplied design, including an implicit one.
+`choices['design_has_constant']` records detection separately from your request.
+
+## Suggested next investigation
+
+Use this connected workflow on one caller-chosen table and question. Record why
+fields and missing rules were selected, inspect exclusions and interpret the
+estimates in context. Repeated needs from that exercise should guide the next
+helper. Grouped descriptive summaries are a useful candidate; broader model
+families and automatic interpretation should wait for a concrete question.

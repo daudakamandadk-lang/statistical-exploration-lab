@@ -69,6 +69,7 @@ to typing.
 | --- | --- | --- |
 | `profile_structure` | Table and optional declarations/overrides/key → facts, contracts, findings and gate | [Contract](docs/CONTRACT.md) |
 | `type_columns` | Non-stopped profile and the same table → role suggestions, sentinel candidates and rationale | [Typing](docs/TYPING.md) |
+| `prepare_missing_values` | Confirmed sentinel rules → prepared copy and changed-row evidence | [Investigation](docs/INVESTIGATION.md) |
 | `select_complete_cases` | Explicit fields → copied complete-row table, original row positions and missing-field reasons | [Investigation](docs/INVESTIGATION.md) |
 | `summarize_numeric` | Selected numeric fields → pandas descriptions and missing counts | [Investigation](docs/INVESTIGATION.md) |
 | `fit_ols`, `plot_ols_diagnostics` | Explicit specification → statsmodels result, row evidence and optional diagnostic figure | [Investigation](docs/INVESTIGATION.md) |
