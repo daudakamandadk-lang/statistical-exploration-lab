@@ -29,6 +29,18 @@ class SampleTests(unittest.TestCase):
         self.assertEqual(data.iloc[0, 0], 1.)
         self.assertNotEqual(sample.selected_fingerprint, data_fingerprint(sample.table))
 
+    def test_mapping_refuses_stale_samples_and_invalid_positions(self):
+        data = pd.DataFrame({'x': [1., np.nan, 3., 4.]}, index=['a'] * 4)
+        sample = select_complete_cases(data, columns=['x'])
+        self.assertEqual(sample.source_positions([2, 0, 2]), (3, 0, 3))
+        self.assertEqual(sample.source_positions([]), ())
+        for positions in ([-1], [3], [True], [1.5]):
+            with self.assertRaises(ValueError):
+                sample.source_positions(positions)
+        sample.table.iloc[0, 0] = 99
+        with self.assertRaisesRegex(ValueError, 'changed'):
+            sample.source_positions([0])
+
     def test_nullable_fields_and_explicit_sentinel_boundary(self):
         data = pd.DataFrame({'value': pd.Series([1, None, -999, 4], dtype='Int64'),
                              'label': ['', 'a', 'b', None]})

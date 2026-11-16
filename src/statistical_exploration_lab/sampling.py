@@ -31,6 +31,21 @@ class CompleteCaseSelection:
         return len(self.used_positions)
 
 
+    def source_positions(self, positions):
+        """Map positions in the unchanged selected table back to source rows.
+
+        Refuse stale evidence after values, order, index or dtypes are edited.
+        Re-select the sample after editing rather than reusing its old mapping.
+        """
+        if data_fingerprint(self.table) != self.selected_fingerprint:
+            raise ValueError('Selected table changed; select the sample again before mapping rows')
+        positions = tuple(positions)
+        if any(isinstance(i, (bool, np.bool_)) or not isinstance(i, (int, np.integer))
+               or i < 0 or i >= self.used_rows for i in positions):
+            raise ValueError('positions must be valid zero-based integers in the selected table')
+        return tuple(self.used_positions[int(i)] for i in positions)
+
+
 def select_complete_cases(data, *, columns):
     """Keep rows complete across exactly the caller-selected fields.
 

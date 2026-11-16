@@ -70,7 +70,9 @@ observations, representative sampling or unbiased estimates.
 Run [the shared-sample cells](../examples/investigate_shared_sample.py) to prepare
 one sample, review exclusions, then call the existing OLS helper twice with
 `missing='raise'`. Fits record positions relative to their supplied sample table;
-map back with `sample.used_positions[i]`. Inspect the two native coefficient
+map back with `sample.source_positions(fit.used_positions)`. This method
+refuses invalid positions or a sample edited since selection. Re-select after
+editing the table; the check includes values, row order, index and dtypes. Inspect the two native coefficient
 series side by side. No automatic ranking, new statistical method, file output
 or credit-risk modeling is introduced.
 
