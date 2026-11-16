@@ -80,3 +80,11 @@ The next repeated task identified by the Findex and credit-data exercises is
 implemented as `summarize_binary`; see [Grouped descriptions](GROUPED.md).
 It preserves explicit choices and denominator evidence. Domain-specific
 codebooks, eligible populations and lending assumptions remain caller decisions.
+
+## Measurement exploration increment
+
+[Distribution and relationship investigations](EXPLORATION.md) now provide
+review-only IQR flags, selected correlations and descriptive views. An editable
+example demonstrates explicit sample sensitivity. Group inference, survey
+uncertainty, time-series analysis and additional model diagnostics remain future
+work; this increment does not claim the whole investigation catalogue is built.

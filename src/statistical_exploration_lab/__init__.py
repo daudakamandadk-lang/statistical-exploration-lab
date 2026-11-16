@@ -10,6 +10,7 @@ from .contract import (
     data_fingerprint,
     profile_structure,
 )
+from .exploration import Exploration, inspect_distributions, inspect_relationships, plot_distribution, plot_relationship
 from .grouped import GroupedProportions, summarize_binary
 from .preparation import PreparedTable, prepare_missing_values
 from .reporting import render_html, write_report
@@ -18,6 +19,11 @@ from .sampling import CompleteCaseSelection, select_complete_cases
 from .semantic_typer import TyperPolicy, TypedColumn, TypeProfile, type_columns
 
 __all__ = [
+    'Exploration',
+    'inspect_distributions',
+    'inspect_relationships',
+    'plot_distribution',
+    'plot_relationship',
     'GroupedProportions',
     'summarize_binary',
     'PreparedTable',

@@ -38,6 +38,10 @@ jobs:
         run: python -B examples/investigate_shared_sample.py
       - name: Run grouped description example
         run: python -B examples/describe_groups.py
+      - name: Run measurement exploration example
+        env:
+          MPLBACKEND: Agg
+        run: python -B examples/explore_measurements.py
       - name: Build wheel
         run: python -m pip wheel --no-deps --wheel-dir dist .
       - name: Run library-backed investigation example
