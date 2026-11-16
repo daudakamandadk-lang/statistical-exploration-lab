@@ -22,6 +22,8 @@ Use the [library-backed investigation guide](docs/INVESTIGATION.md) and
 Select the outcome, predictors, missing-row policy and covariance method;
 inspect summaries, coefficient tables, exclusions and optional diagnostic plots.
 The native statsmodels result stays available for direct library use.
+To investigate two specifications on an explicitly shared sample, try
+[the sample-selection cells](examples/investigate_shared_sample.py).
 
 The lab is standalone. A credit-risk project can use its components while
 owning its data, domain interpretation and lending decisions separately.
@@ -67,6 +69,7 @@ to typing.
 | --- | --- | --- |
 | `profile_structure` | Table and optional declarations/overrides/key → facts, contracts, findings and gate | [Contract](docs/CONTRACT.md) |
 | `type_columns` | Non-stopped profile and the same table → role suggestions, sentinel candidates and rationale | [Typing](docs/TYPING.md) |
+| `select_complete_cases` | Explicit fields → copied complete-row table, original row positions and missing-field reasons | [Investigation](docs/INVESTIGATION.md) |
 | `summarize_numeric` | Selected numeric fields → pandas descriptions and missing counts | [Investigation](docs/INVESTIGATION.md) |
 | `fit_ols`, `plot_ols_diagnostics` | Explicit specification → statsmodels result, row evidence and optional diagnostic figure | [Investigation](docs/INVESTIGATION.md) |
 | `render_html`, `write_report` | Complete legacy report dictionary → offline HTML, or a new JSON/HTML directory | [Reporting](docs/REPORTING.md) |

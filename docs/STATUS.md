@@ -1,6 +1,6 @@
 # Status
 
-**Current revision: 2026-11-12 — library-backed investigation workflow (0.3.0).**
+**Current revision: 2026-11-16 — explicit shared-sample preparation (0.3.0).**
 The package contains structural profiling/contracts, semantic typing suggestions
 and the retained offline legacy renderer. The current requested work improves
 their boundaries and provides a playable inspection example. Statistical
@@ -16,6 +16,7 @@ or lending policy is implemented.
 | `examples/inspect_table.py` | First selected investigation; VS Code cells and ordinary explicit composition |
 | Offline renderer | Retained; complete legacy report dictionaries only |
 | Numeric summaries | pandas-backed selected-field description and missing counts |
+| Complete-case selection | Explicit selected fields, copied table, original positions and missing-field reasons; no automatic sample choice |
 | Selected OLS investigation | Optional statsmodels fit with explicit covariance/missing choices, row evidence and native result access |
 | Diagnostic views | Residual/fitted and normal Q-Q views of the supplied fit |
 | General probability/distribution helpers and other statistical models | Not implemented |
@@ -28,15 +29,16 @@ references. Their historical status text must not be read as the current API.
 
 ## Current verification
 
-Local checks on 2026-11-12 used CPython 3.14.8, pandas 3.0.6, NumPy 2.5.3
+Local checks on 2026-11-16 used CPython 3.14.8, pandas 3.0.6, NumPy 2.5.3
 and statsmodels 0.15.0:
 
-- 75 tests passed, including library-backed known answers, selected-sample
-  accounting, failure boundaries, plotting and the previous inspection checks.
-- The six-cell table-inspection example ran from start to finish.
-- The 0.2.0 wheel and packaged behavior were checked for the prior milestone.
-  The new workflow's package build and editable example are verified separately.
-- Active documentation links and current-file whitespace were checked.
+- 79 tests passed, including shared-sample selection, duplicate index labels,
+  nullable dtypes, exclusion reasons, copied-table edits and two-fit handoff.
+- The artificial shared-sample example used 28/30 rows and reported original
+  excluded positions 3 and 9 before fitting two chosen specifications.
+- Earlier profiling, library-backed OLS and retained rendering checks also passed.
+- The earlier package builds verify prior milestones; this increment adds a
+  Python module and exports without changing dependency requirements or version.
 
 These are local results for this revision. Check the repository's GitHub Actions
 runs for a hosted result; the earlier public 0.1 run does not verify this rebuild.

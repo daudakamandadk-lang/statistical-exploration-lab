@@ -12,6 +12,7 @@ from .contract import (
 )
 from .reporting import render_html, write_report
 from .investigation import OLSInvestigation, fit_ols, plot_ols_diagnostics, summarize_numeric
+from .sampling import CompleteCaseSelection, select_complete_cases
 from .semantic_typer import TyperPolicy, TypedColumn, TypeProfile, type_columns
 
 __all__ = [
@@ -29,6 +30,8 @@ __all__ = [
     'type_columns',
     'render_html',
     'write_report',
+    'CompleteCaseSelection',
+    'select_complete_cases',
     'OLSInvestigation',
     'summarize_numeric',
     'fit_ols',

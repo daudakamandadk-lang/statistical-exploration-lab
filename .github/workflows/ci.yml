@@ -31,6 +31,8 @@ jobs:
         run: python -B -m unittest discover -s tests -p 'test_*.py' -v
       - name: Run table inspection example
         run: python -B examples/inspect_table.py
+      - name: Run shared sample example
+        run: python -B examples/investigate_shared_sample.py
       - name: Build wheel
         run: python -m pip wheel --no-deps --wheel-dir dist .
       - name: Run library-backed investigation example

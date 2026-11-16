@@ -31,6 +31,13 @@ retain the caller's choices and native library outputs.
    the worked example. Record checks in [Status](STATUS.md). Preserve legacy
    rendering; do not claim it accepts new results.
 
+## Shared sample preparation
+
+The lab now supports explicit complete-case selection before selected
+investigations. See [the shared-sample example](../examples/investigate_shared_sample.py).
+It composes existing OLS calls without choosing specifications, ranking models
+or introducing another statistical algorithm. The caller reviews exclusions.
+
 ## Choose the next component
 
 After reviewing the first investigation, request one concrete calculation or

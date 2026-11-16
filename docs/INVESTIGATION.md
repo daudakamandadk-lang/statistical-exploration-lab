@@ -24,10 +24,11 @@ The example returns a figure but does not save it. Set `SHOW_PLOTS=True` to
 display it when running the whole script. The final expression displays it in
 an interactive notebook window. No dataset or generated report is bundled.
 
-## Three independent helpers
+## Independent helpers
 
 | Call | Existing implementation reused | Repeated work handled |
 | --- | --- | --- |
+| `select_complete_cases(data, columns=...)` | pandas missing-value masks | Explicit shared sample, original row positions and exclusion reasons |
 | `summarize_numeric(data, columns)` | pandas `describe` | Select fields, validate numeric inputs, include total/missing counts |
 | `fit_ols(data, outcome=..., predictors=..., missing=..., cov_type=...)` | statsmodels OLS and covariance/inference | Selected complete-row sample, row accounting, recorded choices/version/input fingerprint |
 | `plot_ols_diagnostics(result)` | matplotlib and statsmodels Q-Q plotting | Residual/fitted and Q-Q views of the supplied fit; no refit or saving |
@@ -43,6 +44,35 @@ Missing summaries are per column. OLS `missing='drop'` uses complete observation
 across only the selected outcome/predictors; unrelated missing fields do not
 exclude rows. `missing='raise'` refuses missing selected values. No imputation,
 categorical encoding, transformations or model selection happens automatically.
+
+## Choose a shared sample explicitly
+
+Use `select_complete_cases(table, columns=['response', 'measure_a', 'measure_b'])`
+when you deliberately want investigations to use rows complete across that exact
+set of fields. For example, if row 1 lacks `measure_b` and row 3 lacks `response`,
+the selection excludes original positions 1 and 3 even when a later fit uses only
+`response` and `measure_a`. This is a human sample decision, not a statistical test.
+
+The returned `.table` keeps **all columns**, original index labels, row order and
+dtypes on a pandas copy. `.used_positions` and `.excluded_positions` refer to the
+original input's zero-based positions, even with duplicate index labels.
+`.missing_by_position` records selected missing fields per excluded row; its
+mapping is read-only. Input and selected-table fingerprints describe creation
+time. The copied table remains intentionally editable; edits do not update its
+evidence. Pandas copies do not recursively clone nested Python objects in cells.
+
+Missingness uses pandas `isna`: it does not treat empty strings, sentinel values
+or infinity as missing. Apply your chosen sentinel policy before selection.
+Unselected missing fields do not exclude rows. Invalid selections or no remaining
+rows fail clearly. Selection does not establish numeric suitability, independent
+observations, representative sampling or unbiased estimates.
+
+Run [the shared-sample cells](../examples/investigate_shared_sample.py) to prepare
+one sample, review exclusions, then call the existing OLS helper twice with
+`missing='raise'`. Fits record positions relative to their supplied sample table;
+map back with `sample.used_positions[i]`. Inspect the two native coefficient
+series side by side. No automatic ranking, new statistical method, file output
+or credit-risk modeling is introduced.
 
 ## Small worked example
 
