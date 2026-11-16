@@ -71,6 +71,7 @@ to typing.
 | `type_columns` | Non-stopped profile and the same table → role suggestions, sentinel candidates and rationale | [Typing](docs/TYPING.md) |
 | `prepare_missing_values` | Confirmed sentinel rules → prepared copy and changed-row evidence | [Investigation](docs/INVESTIGATION.md) |
 | `select_complete_cases` | Explicit fields → copied complete-row table, original row positions and missing-field reasons | [Investigation](docs/INVESTIGATION.md) |
+| `summarize_binary` | Chosen binary outcome, groups and optional weights → estimates, denominators and exclusion counts | [Grouped descriptions](docs/GROUPED.md) |
 | `summarize_numeric` | Selected numeric fields → pandas descriptions and missing counts | [Investigation](docs/INVESTIGATION.md) |
 | `fit_ols`, `plot_ols_diagnostics` | Explicit specification → statsmodels result, row evidence and optional diagnostic figure | [Investigation](docs/INVESTIGATION.md) |
 | `render_html`, `write_report` | Complete legacy report dictionary → offline HTML, or a new JSON/HTML directory | [Reporting](docs/REPORTING.md) |

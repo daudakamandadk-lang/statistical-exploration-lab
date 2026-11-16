@@ -73,3 +73,10 @@ when provided.
 After a break, read [Status](STATUS.md), this plan and the actual explanation
 record for the requested component. An archived design or a green test total
 is not approval to start another feature.
+
+## Implemented grouped descriptions
+
+The next repeated task identified by the Findex and credit-data exercises is
+implemented as `summarize_binary`; see [Grouped descriptions](GROUPED.md).
+It preserves explicit choices and denominator evidence. Domain-specific
+codebooks, eligible populations and lending assumptions remain caller decisions.

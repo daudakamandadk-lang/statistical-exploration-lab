@@ -128,3 +128,10 @@ A credit-risk project is an intended consumer of reusable lab functions. It
 owns domain data, assumptions, interpretation and decisions; the lab does not
 depend on credit logic. See [Build plan](BUILD_PLAN.md) for the current sequence
 and [Contributing](../CONTRIBUTING.md) for the explanation/review process.
+
+### Grouped binary descriptions
+
+`grouped.py` exposes `summarize_binary`, delegating grouping and weighted means
+to pandas/NumPy. Eligibility and missing-outcome choices are explicit; counts
+and unavailable estimates remain visible. It does not infer survey uncertainty.
+See [Grouped descriptions](GROUPED.md).
