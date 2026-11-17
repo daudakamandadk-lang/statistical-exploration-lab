@@ -4,7 +4,7 @@
 
 ## Product boundary
 
-The public platform has a fully developed **general-purpose Statistical Investigation Lab** and a separate **open, extensible Model Lab shell**. The specialised Credit Risk Engine will later reuse the statistical foundation and build its own PD/LGD/EAD and econometric workflows. Do not embed credit-risk features in the public shell. The current Python repository is a composable toolkit, not a deployed interactive application.
+The proposed public platform combines a **general-purpose Statistical Investigation Lab** with a separate **open, extensible Model Lab shell**. The statistical helpers are partially implemented; the screens and Model Lab shell are prototypes. The specialised Credit Risk Engine will later reuse the statistical foundation and build its own PD/LGD/EAD and econometric workflows. Do not embed credit-risk features in the public shell. The current Python repository is a composable toolkit, not a deployed interactive application.
 
 ## The four-screen interface
 
@@ -90,3 +90,7 @@ Safe next increments:
 ## Wireframe acceptance criteria
 
 Four distinct investigation screens; accessible selectable cards and evidence pane; clear demo labels; no fictitious statistical execution; states for not-implemented/not-run; reproducible selected inputs; shared evidence language; generic Model Lab shell; no changes to current statistical algorithms. The prototype is not a production frontend or a substitute for validated calculations.
+
+## Results reading view
+
+Use [the question-led report](INVESTIGATION_REPORT.md) for implemented descriptive results. The four screens organize investigation choices; each result still needs a question, metric purpose, observation, interpretation, next step and limits. The prototype remains unconnected to calculations.

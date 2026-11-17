@@ -11,6 +11,7 @@ from .contract import (
     profile_structure,
 )
 from .exploration import Exploration, inspect_distributions, inspect_relationships, plot_distribution, plot_relationship
+from .investigation_report import InvestigationSection, write_investigation
 from .grouped import GroupedProportions, summarize_binary
 from .preparation import PreparedTable, prepare_missing_values
 from .reporting import render_html, write_report
@@ -19,6 +20,8 @@ from .sampling import CompleteCaseSelection, select_complete_cases
 from .semantic_typer import TyperPolicy, TypedColumn, TypeProfile, type_columns
 
 __all__ = [
+    'InvestigationSection',
+    'write_investigation',
     'Exploration',
     'inspect_distributions',
     'inspect_relationships',

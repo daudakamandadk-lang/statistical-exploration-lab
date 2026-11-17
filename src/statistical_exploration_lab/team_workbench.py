@@ -6,7 +6,9 @@ preparation is performed. Results preserve original lab evidence.
 """
 from __future__ import annotations
 
-from io import BytesIO
+from io import BytesIO, StringIO
+import csv
+from copy import deepcopy
 from typing import Iterable
 import math
 
@@ -60,8 +62,14 @@ def read_local_csv(data: bytes, *, max_bytes: int = 25 * 1024 * 1024) -> pd.Data
     """
     if not isinstance(data, bytes):
         raise TypeError("CSV content must be bytes from a caller-selected file")
+    if isinstance(max_bytes, bool) or not isinstance(max_bytes, int) or max_bytes <= 0:
+        raise ValueError("max_bytes must be a positive integer")
     if not data or len(data) > max_bytes:
-        raise ValueError("CSV must be nonempty and at most 25 MiB")
+        raise ValueError(f"CSV must be nonempty and at most {max_bytes} bytes")
+    # pandas renames duplicate/blank headers, so inspect the original header first.
+    header = next(csv.reader(StringIO(data.decode("utf-8-sig"))), [])
+    if not header or len(set(header)) != len(header) or any(not c.strip() for c in header):
+        raise ValueError("CSV column names must be unique and nonblank")
     table = pd.read_csv(BytesIO(data), dtype="string", keep_default_na=False,
                         na_values=[""], encoding="utf-8-sig")
     if not table.columns.is_unique or not all(
@@ -95,10 +103,13 @@ def prepare_explicit_numeric(data: pd.DataFrame, fields: Iterable[str]) -> pd.Da
 def overview_evidence(table: pd.DataFrame, *, observation_key=None,
                       numeric_fields=()):
     """Compose existing structural/semantic evidence and numeric descriptions."""
+    numeric_fields = tuple(numeric_fields)
     overrides = {field: {"semantic_type": "continuous", "sentinels": []}
                  for field in numeric_fields}
-    if observation_key is not None and observation_key not in overrides:
-        overrides[observation_key] = {"semantic_type": "identifier"}
+    keys = () if observation_key is None else ((observation_key,) if isinstance(observation_key, str) else tuple(observation_key))
+    for key in keys:
+        if key not in overrides:
+            overrides[key] = {"semantic_type": "identifier"}
     profile = profile_structure(table, observation_key=observation_key,
                                 overrides=overrides)
     typed = None if profile.gate.status == "stop" else type_columns(profile, table)
@@ -108,10 +119,10 @@ def overview_evidence(table: pd.DataFrame, *, observation_key=None,
 
 
 def distribution_evidence(table: pd.DataFrame, *, field: str, bins=12,
-                          fence_multiplier=1.5, include_plot=True):
+                          fence_multiplier=1.5, missing="exclude", include_plot=True):
     """Compute existing descriptives/IQR flags and conservative shape hints."""
     investigation = inspect_distributions(
-        table, [field], missing="exclude", fence_multiplier=fence_multiplier)
+        table, [field], missing=missing, fence_multiplier=fence_multiplier)
     row = investigation.table.iloc[0]
     valid = table[field].dropna()
     n = len(valid)
@@ -138,10 +149,10 @@ def distribution_evidence(table: pd.DataFrame, *, field: str, bins=12,
 
 
 def relationship_evidence(table: pd.DataFrame, *, left: str, right: str,
-                          method: str = "pearson", include_plot=True):
+                          method: str = "pearson", missing="pairwise", include_plot=True):
     """Calculate one explicitly chosen association and its plot."""
     result = inspect_relationships(
-        table, [(left, right)], method=method, missing="pairwise")
+        table, [(left, right)], method=method, missing=missing)
     row = result.table.iloc[0]
     notes = []
     if row["status"] not in ("estimated", "estimated_with_warning"):
@@ -154,9 +165,11 @@ def relationship_evidence(table: pd.DataFrame, *, left: str, right: str,
     return {"result": result, "figure": figure, "hints": tuple(notes)}
 
 
-def grouped_evidence(table: pd.DataFrame, *, outcome: str, group: str | None):
+def grouped_evidence(table: pd.DataFrame, *, outcome: str, group: str | None,
+                     missing="exclude", weight=None, eligible=None):
     """Describe the caller-confirmed 0/1 event, without inference."""
-    return summarize_binary(table, outcome=outcome, by=group, missing="exclude")
+    return summarize_binary(table, outcome=outcome, by=group, missing=missing,
+                            weight=weight, eligible=eligible)
 
 
 def notebook_item(name: str, table: pd.DataFrame, *,
@@ -170,6 +183,6 @@ def notebook_item(name: str, table: pd.DataFrame, *,
         "source_fingerprint": data_fingerprint(table),
         "source_rows": len(table), "fields": list(chosen_fields),
         "observation_key": observation_key,
-        "counts": counts,
+        "counts": deepcopy(counts),
         "scope_note": "Statistical descriptions only; no population or causal claim.",
     }

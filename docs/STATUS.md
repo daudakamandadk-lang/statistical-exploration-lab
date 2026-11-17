@@ -1,6 +1,6 @@
 # Status
 
-**Current revision: 2026-11-16 — grouped descriptions and connected investigation (0.3.0).**
+**Current revision: 2026-11-17 — question-led reporting and composition review (0.3.0).**
 The package contains structural profiling/contracts, semantic typing suggestions
 and the retained offline legacy renderer. The current requested work improves
 their boundaries and provides a playable inspection example. Statistical
@@ -14,6 +14,9 @@ or lending policy is implemented.
 | `type_columns` | Implemented; role rationale, sentinel candidates, opt-in inferred masking and matching-table validation |
 | Result inspection | Read-only mappings with detached `to_dict()` conversion |
 | `examples/inspect_table.py` | First selected investigation; VS Code cells and ordinary explicit composition |
+| Question-led descriptive report | Implemented for Exploration/GroupedProportions; explicit metric purpose and investigator-authored meaning, next step and limits |
+| Four-screen interface | Demo-only prototype; twenty-category roadmap is not fully implemented |
+| Composition helpers | UI-independent CSV/overview/distribution/relationship/group/notebook helpers; reviewed header, composite-key and weight handoffs |
 | Offline renderer | Retained; complete legacy report dictionaries only |
 | Numeric exploration | Distribution summaries, review-only IQR flags, selected Pearson/Spearman pairs and histogram/ECDF/scatter views |
 | Grouped binary descriptions | Explicit eligibility, optional positive weights, missing-outcome policy and denominator evidence; descriptive only |
@@ -32,10 +35,10 @@ references. Their historical status text must not be read as the current API.
 
 ## Current verification
 
-Local checks on 2026-11-16 used CPython 3.14.8, pandas 3.0.6, NumPy 2.5.3
+Local checks on 2026-11-17 used CPython 3.14.8, pandas 3.0.6, NumPy 2.5.3
 and statsmodels 0.15.0:
 
-- 97 tests passed, including supplied-constant detection, confirmed preparation,
+- 105 tests passed, including report escaping/numeric evidence and new composition regression checks, plus including supplied-constant detection, confirmed preparation,
   contextual scalar errors, shared-sample selection, duplicate index labels,
   nullable dtypes, exclusion reasons, copied-table edits and two-fit handoff.
 - The artificial shared-sample example used 28/30 rows and reported original

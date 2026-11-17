@@ -8,8 +8,9 @@ while keeping the individual calls and choices visible.
 **Available now:** structural profiling, explicit field roles, numeric summaries
 through pandas, and optional user-specified OLS investigation through statsmodels
 with row accounting and diagnostic views. The lab wraps repeated workflow steps;
-it does not reimplement those libraries' statistical algorithms. A separate
-offline renderer remains available for complete legacy reports only.
+it does not reimplement those libraries' statistical algorithms. Question-led offline reports display selected descriptive results with explicit
+metric purpose, interpretation and limits. A separate renderer remains available
+for complete legacy reports.
 
 This is a generic investigation toolkit. It does not implement a credit-risk
 engine, PD/LGD/EAD estimates or lending decisions.
@@ -76,6 +77,7 @@ to typing.
 | `summarize_binary` | Chosen binary outcome, groups and optional weights → estimates, denominators and exclusion counts | [Grouped descriptions](docs/GROUPED.md) |
 | `summarize_numeric` | Selected numeric fields → pandas descriptions and missing counts | [Investigation](docs/INVESTIGATION.md) |
 | `fit_ols`, `plot_ols_diagnostics` | Explicit specification → statsmodels result, row evidence and optional diagnostic figure | [Investigation](docs/INVESTIGATION.md) |
+| `InvestigationSection`, `write_investigation` | Descriptive results and investigator-authored explanations → offline question-led HTML and evidence JSON | [Results reading guide](docs/INVESTIGATION_REPORT.md) |
 | `render_html`, `write_report` | Complete legacy report dictionary → offline HTML, or a new JSON/HTML directory | [Reporting](docs/REPORTING.md) |
 
 The inspection playground composes the first two calls explicitly. The separate
@@ -107,3 +109,12 @@ when provided.
 
 User datasets, generated reports, domain interpretations and individual learning
 records belong with their owning project. No distribution license is declared.
+
+## Interface direction
+
+The [four-screen wireframe](prototypes/statistical-lab-wireframe.html) is a demo,
+not a connected application. Its [investigation roadmap](docs/WIREFRAME_AND_INVESTIGATION_PLAN.md)
+distinguishes partial capabilities from proposed methods. The
+[question-led report example](examples/report_investigation.py) works with existing
+descriptive results today. Composition helpers in `team_workbench.py` are
+UI-independent; they do not execute the prototype controls.

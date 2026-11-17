@@ -19,7 +19,7 @@ the current boundaries.
 | Direct functions | Accept explicit inputs, check their boundaries and return an inspectable result | Profiling, typing, confirmed missing-value preparation, sample selection and library-backed OLS exist |
 | Optional investigation recipes | Combine selected calls for a stated question or outcome | The table-inspection playground demonstrates this in ordinary Python |
 | Shared result/storage conventions | Support reuse when several actual components need a common form | Existing dataclasses and detached dictionaries suffice for the present components; no registry exists |
-| Presentation | Display supplied results without recalculating them | Legacy renderer; direct result tables and optional OLS diagnostic figures |
+| Presentation | Display supplied results without recalculating them | Question-led descriptive report; legacy renderer; direct tables and optional diagnostic figures |
 
 The intended composition is:
 
@@ -135,3 +135,15 @@ and [Contributing](../CONTRIBUTING.md) for the explanation/review process.
 to pandas/NumPy. Eligibility and missing-outcome choices are explicit; counts
 and unavailable estimates remain visible. It does not infer survey uncertainty.
 See [Grouped descriptions](GROUPED.md).
+
+### Question-led descriptive presentation
+
+`investigation_report.py` accepts supplied descriptive results and explicit
+investigator explanations. It separates observations, metric purpose, meaning,
+next choices and limitations, with full evidence available alongside the page.
+It estimates no new statistics and does not determine whether interpretations
+are true. See [Results reading guide](INVESTIGATION_REPORT.md).
+
+The four-screen prototype organizes possible investigations but is not connected
+to Python. `team_workbench.py` composes selected existing functions without
+requiring that UI. Its shape hints are heuristics, not distribution selection.
