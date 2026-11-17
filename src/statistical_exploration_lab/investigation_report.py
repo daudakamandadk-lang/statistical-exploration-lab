@@ -4,6 +4,7 @@ from pathlib import Path
 import html
 import json
 import math
+import hashlib
 import pandas as pd
 from .contract import _plain
 from .exploration import Exploration
@@ -18,6 +19,8 @@ class InvestigationSection:
     next_step: str
     limitations: str
     metric_purpose: str
+    explanation_source: str = "investigator-authored"
+    evidence_digest: str | None = None
 
 def _frame_evidence(frame):
     # Preserve Python float round trips; pandas to_json rounds numeric values.
@@ -33,6 +36,14 @@ def _frame_evidence(frame):
     return clean(frame.to_dict(orient='split'))
 
 
+def _result_digest(result):
+    payload = {"table": _frame_evidence(result.table), "choices": _plain(result.choices),
+               "input_fingerprint": result.input_fingerprint}
+    if hasattr(result, "rows"):
+        payload["rows"] = _frame_evidence(result.rows)
+    return hashlib.sha256(json.dumps(payload, sort_keys=True, allow_nan=False).encode()).hexdigest()
+
+
 def _evidence(section):
     if not isinstance(section,InvestigationSection):raise TypeError('Use InvestigationSection entries')
     if not isinstance(section.result,(Exploration,GroupedProportions)):
@@ -41,8 +52,12 @@ def _evidence(section):
         if not isinstance(getattr(section,name),str) or not getattr(section,name).strip():
             raise ValueError(f'Supply explicit {name} text')
     result=section.result
+    if section.explanation_source not in ('investigator-authored', 'rule-based descriptive guidance'):
+        raise ValueError('Unknown explanation source')
+    if section.evidence_digest is not None and section.evidence_digest != _result_digest(result):
+        raise ValueError('Result changed after explanation; regenerate the guidance')
     evidence={name:getattr(section,name) for name in ('question','observation','interpretation','next_step','limitations','metric_purpose')}
-    evidence.update(table=_frame_evidence(result.table),
+    evidence.update(explanation_source=section.explanation_source, evidence_digest=section.evidence_digest, table=_frame_evidence(result.table),
                     choices=_plain(result.choices),input_fingerprint=result.input_fingerprint)
     if hasattr(result,'rows'):evidence['row_evidence']=_frame_evidence(result.rows)
     return evidence
@@ -73,7 +88,7 @@ def _body(title,source,sections,evidence):
         display_choices={k:(f'{len(v)} positions; see evidence.json' if k=='eligible_positions' else v)
                          for k,v in item['choices'].items()}
         content.append(f'''<section id="question-{i}"><span class="eyebrow">QUESTION {i}</span>
-<h2>{esc(section.question)}</h2><p class="observation">{esc(section.observation)}</p>
+<h2>{esc(section.question)}</h2><p class="method">Explanation: {esc(section.explanation_source)}</p><p class="observation">{esc(section.observation)}</p>
 <p><strong>Why these measures:</strong> {esc(section.metric_purpose)}</p>
 <p class="method">{esc(method)}</p>{_table(primary)}
 <div class="notes"><div><h3>What this means</h3><p>{esc(section.interpretation)}</p></div>
@@ -95,13 +110,13 @@ section{{padding:28px;margin:24px 0;background:white;border:1px solid #d9e2e8;bo
 th{{background:#edf3f6}}pre{{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px}}details{{margin-top:18px}}summary{{cursor:pointer;font-weight:600}}
 @media(max-width:650px){{.notes{{grid-template-columns:1fr}}section{{padding:18px}}h1{{font-size:26px}}}}
 </style></head><body><main><header><p>STATISTICAL LAB · INVESTIGATION REVIEW</p><h1>{esc(title)}</h1>
-<p>{esc(source)}</p></header><p>Read the observation first, then its meaning and next step. Calculation status describes whether a value was computed; it is not a reliability rating. Explanations are supplied by the investigator, not generated statistical conclusions.</p>
+<p>{esc(source)}</p></header><p>Read the observation first, then its meaning and next step. Calculation status describes whether a value was computed; it is not a reliability rating. Each section labels investigator-authored explanations or rule-based descriptive guidance. Neither certifies an interpretation or selects a model.</p>
 {''.join(content)}<footer><p>Supplied result values, choices and row evidence are saved in evidence.json. Missing results are shown as unavailable, never as zero. The renderer formats supplied statistics, including proportions as percentages; it does not estimate new statistics.</p></footer></main></body></html>'''
 
 def write_investigation(output, *, title, source, sections):
     """Write HTML and JSON to a new directory; refuse existing destinations.
 
-    Explanations are caller-authored. Does not validate their truth or recompute
+    Explanations are supplied, either authored or rule-based. Does not validate their truth or recompute
     supplied statistics. Table edits are preserved as supplied, not re-estimated.
     """
     if not isinstance(title,str) or not title.strip() or not isinstance(source,str) or not source.strip():

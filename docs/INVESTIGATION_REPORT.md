@@ -21,7 +21,7 @@ directories are refused. It does not accept OLS/profile results or replace the
 legacy renderer. See [the artificial example](../examples/report_investigation.py).
 
 The renderer formats supplied statistics; it does not choose methods or calculate
-new estimates. Explanations are investigator-authored, not automatically verified
+new estimates. Explanations are labelled as investigator-authored or rule-based, never automatically verified
 conclusions. Result tables are editable: saved evidence reflects the supplied
 table, while its input fingerprint and choices describe creation time. A
 fingerprint does not certify later edits. Keep source data and transformation
@@ -68,3 +68,36 @@ The reading order follows the emphasis on clear communication in the
 and makes absent uncertainty explicit, following
 [ONS uncertainty guidance](https://service-manual.ons.gov.uk/data-visualisation/guidance/showing-uncertainty-in-charts).
 These references guide presentation; they do not validate an analysis.
+
+
+## Evidence-based descriptive guidance
+
+`explain_result(result, question=..., relevance=...)` creates a report section
+from a grouped binary or selected correlation result. The question and reason
+for the calculation remain explicit caller choices. Observations format actual
+values and counts; next investigations follow documented rules:
+
+- No usable grouped denominator: review eligibility and missing outcomes.
+- Missing eligible outcomes: inspect their exclusions before comparison.
+- Weights supplied: establish weight meaning and sampling design before inference.
+- Constant/insufficient paired inputs: explain why correlation is unavailable.
+- Estimated correlation: inspect its paired sample and scatterplot before
+  interpreting relationship form; preserve numerical warnings.
+
+These rules do not run the follow-ups, rank models, infer field meaning, classify
+missingness mechanisms or calculate uncertainty. “No missing eligible outcomes”
+does not imply complete predictors. Group differences are descriptions, not
+significance findings. Distribution guidance is not yet supported by this adapter.
+
+The report labels generated guidance separately from investigator-authored text.
+The helper snapshots the supplied tables and records a digest of the evidence.
+If that snapshot is edited, rendering refuses it until guidance is regenerated.
+This prevents stale generated facts after table edits; it does not validate the
+source data or certify manually edited explanatory text. Use the original result
+for further exploration, and generate a fresh section for each changed dataset.
+
+Run [the changing-data example](../examples/changing_data.py) to compare six
+artificial scenarios: baseline, all events, missing outcomes, increasing,
+decreasing and constant measurements. The regression checks also cover weights,
+missing counts, detached snapshots and stale evidence. Real datasets and reports
+remain caller-owned and outside the public repository.

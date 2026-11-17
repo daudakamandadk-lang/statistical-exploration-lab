@@ -14,6 +14,7 @@ or lending policy is implemented.
 | `type_columns` | Implemented; role rationale, sentinel candidates, opt-in inferred masking and matching-table validation |
 | Result inspection | Read-only mappings with detached `to_dict()` conversion |
 | `examples/inspect_table.py` | First selected investigation; VS Code cells and ordinary explicit composition |
+| Evidence-based explanations | Grouped/correlation facts and conditional next-check rules; changed-data tests and stale-evidence refusal; no automatic model selection |
 | Question-led descriptive report | Implemented for Exploration/GroupedProportions; explicit metric purpose and investigator-authored meaning, next step and limits |
 | Four-screen interface | Demo-only prototype; twenty-category roadmap is not fully implemented |
 | Composition helpers | UI-independent CSV/overview/distribution/relationship/group/notebook helpers; reviewed header, composite-key and weight handoffs |
@@ -38,7 +39,7 @@ references. Their historical status text must not be read as the current API.
 Local checks on 2026-11-17 used CPython 3.14.8, pandas 3.0.6, NumPy 2.5.3
 and statsmodels 0.15.0:
 
-- 105 tests passed, including report escaping/numeric evidence and new composition regression checks, plus including supplied-constant detection, confirmed preparation,
+- 112 tests passed, including report escaping/numeric evidence and new composition regression checks, plus including supplied-constant detection, confirmed preparation,
   contextual scalar errors, shared-sample selection, duplicate index labels,
   nullable dtypes, exclusion reasons, copied-table edits and two-fit handoff.
 - The artificial shared-sample example used 28/30 rows and reported original

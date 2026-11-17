@@ -77,6 +77,7 @@ to typing.
 | `summarize_binary` | Chosen binary outcome, groups and optional weights → estimates, denominators and exclusion counts | [Grouped descriptions](docs/GROUPED.md) |
 | `summarize_numeric` | Selected numeric fields → pandas descriptions and missing counts | [Investigation](docs/INVESTIGATION.md) |
 | `fit_ols`, `plot_ols_diagnostics` | Explicit specification → statsmodels result, row evidence and optional diagnostic figure | [Investigation](docs/INVESTIGATION.md) |
+| `explain_result` | Selected grouped/correlation evidence plus explicit question/relevance → factual descriptions and labelled rule-based next checks | [Results reading guide](docs/INVESTIGATION_REPORT.md) |
 | `InvestigationSection`, `write_investigation` | Descriptive results and investigator-authored explanations → offline question-led HTML and evidence JSON | [Results reading guide](docs/INVESTIGATION_REPORT.md) |
 | `render_html`, `write_report` | Complete legacy report dictionary → offline HTML, or a new JSON/HTML directory | [Reporting](docs/REPORTING.md) |
 

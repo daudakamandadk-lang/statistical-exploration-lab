@@ -44,6 +44,8 @@ jobs:
         run: python -B examples/explore_measurements.py
       - name: Run question-led report example
         run: python -B examples/report_investigation.py
+      - name: Run changed-data guidance example
+        run: python -B examples/changing_data.py
       - name: Build wheel
         run: python -m pip wheel --no-deps --wheel-dir dist .
       - name: Run library-backed investigation example
