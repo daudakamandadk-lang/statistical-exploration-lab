@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Statistical Exploration Lab — Wireframe</title>
+<style>
+:root{--ink:#18283f;--muted:#60738b;--line:#dce5f0;--blue:#2765db;--pale:#eef5ff;--bg:#f5f7fb;--surface:#fff;--gold:#956200;--green:#276749}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #91b8fd;outline-offset:2px}
+header{background:#12233d;color:#fff;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+header h1{font-size:21px;letter-spacing:-.5px;margin:0}header p{color:#c4d2e5;font-size:13px;margin:3px 0 0}
+.pill{font-size:11px;font-weight:700;letter-spacing:.04em;padding:5px 9px;border-radius:99px;background:#fef3c7;color:#684500;white-space:nowrap}
+.shell{display:grid;grid-template-columns:228px minmax(0,1fr);min-height:calc(100vh - 90px)}
+aside{background:#fff;border-right:1px solid var(--line);padding:22px 14px}
+aside small{display:block;text-transform:uppercase;font-weight:800;color:#8995a8;letter-spacing:.12em;margin:3px 12px 13px}
+.navbtn{border:0;background:transparent;width:100%;text-align:left;padding:12px 13px;margin:2px 0;border-radius:10px;color:#475a73;font-size:14px;font-weight:600}
+.navbtn:hover{background:#f2f6fc}.navbtn.active{color:#164fb3;background:var(--pale)}
+.side-note{font-size:12px;color:var(--muted);background:#f4f6fa;padding:12px;border-radius:10px;margin:22px 5px}
+main{padding:26px;max-width:1480px;width:100%;margin:0 auto}
+.hero{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:22px}
+.hero h2{font-size:26px;margin:0;letter-spacing:-.7px}.hero p{max-width:760px;color:var(--muted);font-size:14px;margin:7px 0}
+.tag{background:#e9f3ff;color:#245998;border-radius:9px;padding:5px 9px;font-size:12px;font-weight:700}
+.banner{background:#fff8e8;border:1px solid #ead9b1;border-radius:11px;color:#684f12;padding:10px 14px;font-size:12px;margin-bottom:20px}
+.panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);padding:20px;border-radius:16px;text-align:left;min-height:185px;box-shadow:0 3px 14px #18325708;transition:border-color .15s}
+.panel:hover{border-color:#83aef5}.panel h3{margin:8px 0;font-size:18px}.panel .panel-num{font-weight:800;color:#4e83d9;font-size:12px}.panel p{color:#60738b;font-size:13px;margin:0 0 13px}
+.panel .small{font-size:12px;color:#2765db;font-weight:700}
+.grid2{display:grid;grid-template-columns:minmax(250px,1fr) minmax(310px,1.1fr);gap:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:0 3px 14px #18325707}
+.card h3{margin:0 0 12px;font-size:16px}.card p{color:var(--muted);font-size:13px}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.toolbar input,.toolbar select{background:#fff;border:1px solid var(--line);border-radius:8px;padding:9px 10px;color:var(--ink);min-width:0}
+.toolbar input{width:min(100%,310px)}label{font-size:12px;color:var(--muted);font-weight:650}
+.methods{display:grid;gap:8px;max-height:540px;overflow-y:auto;padding-right:2px}
+.method{display:flex;gap:10px;align-items:start;text-align:left;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px;width:100%}
+.method:hover,.method.selected{border-color:#78a5ef;background:#f0f6ff}.method strong{font-size:13px}.method small{display:block;color:#60738b;font-size:11px;margin-top:3px}
+.num{display:inline-grid;place-items:center;background:#e9effa;color:#3161a6;width:27px;height:27px;flex:none;border-radius:8px;font-size:12px;font-weight:800}
+.state{display:inline-block;font-size:11px;border-radius:20px;padding:3px 7px;font-weight:700;background:#eff0f3;color:#586678}
+.state.partial{background:#e4f3ee;color:#25684d}.state.proposed{background:#f6eddb;color:#815a14}
+.detail{min-height:400px}.detail h3{font-size:19px}.kicker{font-size:11px;color:#7a889b;text-transform:uppercase;letter-spacing:.1em;font-weight:750}
+.line{border:0;border-top:1px solid var(--line);margin:15px 0}
+dl{margin:8px 0}dt{font-weight:750;font-size:12px;margin-top:12px}dd{font-size:13px;color:#526580;margin:3px 0 0}
+.hint{border-left:3px solid #538deb;background:#f0f6ff;border-radius:5px;padding:13px;margin-top:17px}.hint strong{font-size:13px}.hint p{margin:4px 0 0}
+.smallbtn{border:1px solid #b7ccef;background:#fff;color:#2253aa;border-radius:9px;padding:8px 12px;font-size:12px;font-weight:750}
+.smallbtn.primary{background:#235ecf;color:#fff;border-color:#235ecf}.smallbtn:disabled{opacity:.5;cursor:default}
+.figure{background:linear-gradient(180deg,#f8fbff,#fff);border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:15px}
+.figure svg{max-width:100%;height:130px;width:100%}
+.notebook{display:grid;gap:9px;margin-top:12px}.note{border:1px solid var(--line);padding:10px 12px;border-radius:8px;font-size:13px;background:#f8fbff}
+.note b{display:block}.note span{color:var(--muted);font-size:12px}
+footer{padding:20px 26px;text-align:center;color:#7b8a9f;font-size:12px}
+@media(max-width:900px){.shell{grid-template-columns:1fr}aside{display:flex;flex-wrap:wrap;align-items:center;padding:8px;border-right:0;border-bottom:1px solid var(--line)}aside small,aside .side-note{display:none}.navbtn{width:auto;padding:9px 10px;font-size:12px}main{padding:16px}.grid2{grid-template-columns:1fr}}
+@media(max-width:560px){.panels{grid-template-columns:1fr}.hero h2{font-size:22px}.hero{display:block}.toolbar{display:grid}.toolbar input{width:100%}}
+</style>
+</head>
+<body>
+<header><div><h1>Statistical Exploration Lab</h1><p>Investigation-first interface · Four-panel conceptual prototype</p></div><span class="pill">DEMO ONLY · NO DATA CONNECTED</span></header>
+<div class="shell">
+<aside>
+ <small>Workspace</small>
+ <button class="navbtn active" data-page="home">◫ &nbsp; Lab overview</button>
+ <button class="navbtn" data-page="overview">◈ &nbsp; Data Overview</button>
+ <button class="navbtn" data-page="distributions">▥ &nbsp; Distributions</button>
+ <button class="navbtn" data-page="relationships">⤢ &nbsp; Relationships & Tests</button>
+ <button class="navbtn" data-page="summary">☷ &nbsp; Investigation Summary</button>
+ <button class="navbtn" data-page="model">⬡ &nbsp; Model Lab shell</button>
+ <div class="side-note"><b>Design boundary</b><br>General statistical investigation stays public. Credit-risk specialisation belongs in its separate engine.</div>
+</aside>
+<main>
+ <div class="banner"><b>Wireframe, not an analytical result.</b> All examples are artificial. The controls navigate the design and create a local draft investigation plan; no statistics, model fits, datasets or reports are executed.</div>
+ <div class="hero"><div><h2 id="pageTitle">Investigate before you model</h2><p id="pageSubtitle">Explore the four spaces that organize twenty statistical investigation categories.</p></div><span class="tag" id="pageBadge">4 screens · 20 investigations</span></div>
+ <div id="pageContent"></div>
+</main>
+</div>
+<footer>Independent, reusable statistical foundation · Interface concept only · No external libraries or network requests</footer>
+<script>
+(function(){
+'use strict';
+var sections={
+ overview:{title:'Data Overview',subtitle:'Inspect structure, descriptive measures, missingness and sampling before selecting formal procedures.',short:'Quality, central tendency, dispersion, sampling and missingness',caption:'Understand what observations and fields mean.'},
+ distributions:{title:'Distribution Explorer',subtitle:'Study shapes and extremes, evaluate candidate families, and compare deliberate transformations.',short:'Distribution shape, fitting, outliers, counts and transformations',caption:'Explore what the variables look like.'},
+ relationships:{title:'Relationships & Tests',subtitle:'Examine chosen associations, group comparisons, inference, categories and subgroup patterns.',short:'Relationships, tests, inference, categorical and subgroup analysis',caption:'Investigate how selected variables relate.'},
+ summary:{title:'Investigation Summary',subtitle:'Review time dependence, assumptions, stability, sensitivity and the evidence still needed.',short:'Time patterns, assumptions, stability and sensitivity',caption:'Preserve evidence, uncertainty and next steps.'}
+};
+var methods=[
+[1,'Data quality','overview','Structure, field roles and row keys','Missingness, duplicates, valid values and field conflicts','Review questionable source values and confirmed row units','partial'],
+[2,'Central tendency','overview','Selected numeric measures','Mean, median, mode and trimmed/weighted estimates','Compare central estimates when the tails influence the mean','partial'],
+[3,'Dispersion','overview','Selected numeric measures','Standard deviation, variance, IQR, MAD, quantiles, CV','Investigate variability relative to scale','partial'],
+[4,'Distribution shape','distributions','Numeric field and chosen plot settings','Histogram, ECDF, KDE, Q-Q, skewness and kurtosis','Investigate skewness, heavy tails and multiple peaks','partial'],
+[5,'Distribution fitting','distributions','Selected variable and candidate families','Parameter estimates, fit comparisons and goodness-of-fit','Compare plausible distributions; avoid declaring one true','proposed'],
+[6,'Outlier analysis','distributions','Numeric field and selected review rule','IQR flags, robust scores and extreme quantiles','Investigate unusual observations, never auto-delete','partial'],
+[7,'Associations','relationships','Selected numeric pairs and chosen measure','Pearson, Spearman, Kendall and scatter views','Investigate nonlinear or confounded patterns','partial'],
+[8,'Group comparisons','relationships','Outcome, groups and sample design','Welch t, ANOVA, rank tests and group estimates','Select tests suited to the design and assumptions','proposed'],
+[9,'Statistical inference','relationships','Explicit estimand and sampling structure','Confidence intervals, effect sizes and appropriate tests','Distinguish statistical from practical significance','partial'],
+[10,'Sampling','overview','Observation units, groups and weights','Counts, coverage, representativeness and power','Review who the sample represents','partial'],
+[11,'Time dependence','summary','Time unit, frequency and chosen series','Trend, lag, rolling and ACF/PACF views','Investigate autocorrelation and seasonal structure','proposed'],
+[12,'Statistical assumptions','summary','Chosen method and statistical design','Applicable assumption checks and limitations','Avoid imposing irrelevant model assumptions','partial'],
+[13,'Missingness patterns','overview','Fields, segments and periods','Missingness by field, group and time','Review systematic exclusion and co-missingness','partial'],
+[14,'Categorical analysis','relationships','Categorical variables and eligibility','Frequencies, contingency, chi-square/Fisher','Check sparse groups and category definitions','partial'],
+[15,'Zeros and counts','distributions','Count variable and definition of zero','Zero share, mean/variance and count fits','Distinguish excess zeros from missing codes','proposed'],
+[16,'Transformations','distributions','Chosen variable and transformation','Original versus transformed summaries/plots','Evaluate usefulness without altering source data','proposed'],
+[17,'Population stability','summary','Comparable groups or time periods','Distribution and quantile shifts','Inspect sample comparability and temporal dependence','proposed'],
+[18,'Subgroup investigation','relationships','Selected strata and measures','Within-group estimates and distribution comparisons','Find masked patterns and heterogeneous effects','partial'],
+[19,'Sensitivity analysis','summary','Chosen alternate samples or methods','Change in estimates under explicit alternatives','Assess sensitivity before interpreting results','partial'],
+[20,'Multiple-testing control','relationships','Defined family of related hypotheses','Adjusted p-values and false-discovery procedures','Avoid overstating discoveries from many tests','proposed']
+];
+var currentPage='home',selected=1,search='',onlyAvailable=false,plan=[];
+var content=document.getElementById('pageContent');
+function node(tag,attrs,text){var e=document.createElement(tag);Object.keys(attrs||{}).forEach(function(k){e.setAttribute(k,attrs[k]);});if(text!==undefined)e.textContent=text;return e;}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function btn(label,cls,click){var e=node('button',{class:cls,type:'button'},label);e.addEventListener('click',click);return e;}
+function setPage(page){currentPage=page;search='';selected=(methods.find(function(m){return m[2]===page;})||methods[0])[0];render();document.querySelectorAll('[data-page]').forEach(function(e){e.classList.toggle('active',e.getAttribute('data-page')===page);});}
+document.querySelectorAll('[data-page]').forEach(function(e){e.addEventListener('click',function(){setPage(e.getAttribute('data-page'));});});
+function heading(title,subtitle,badge){document.getElementById('pageTitle').textContent=title;document.getElementById('pageSubtitle').textContent=subtitle;document.getElementById('pageBadge').textContent=badge;}
+function home(){
+ heading('Investigate before you model','Four linked investigation screens, with an evidence-based assistant and a separate generic Model Lab shell.','4 screens · 20 investigations');
+ var grid=node('div',{class:'panels'});
+ Object.keys(sections).forEach(function(key,i){
+ var s=sections[key],p=btn('', 'panel',function(){setPage(key);});
+ p.innerHTML='<span class="panel-num">0'+(i+1)+' / INVESTIGATION SCREEN</span><h3>'+esc(s.title)+'</h3><p>'+esc(s.short)+'</p><div class="small">Explore '+methods.filter(function(m){return m[2]===key;}).length+' investigations →</div>';
+ grid.appendChild(p);
+ });
+ content.appendChild(grid);
+ var c=node('section',{class:'card',style:'margin-top:16px'});
+ c.innerHTML='<h3>Shared investigation experience</h3><p><b>Setup → Measures → Visual evidence → Interpretation hints → Notebook</b></p><p>Quick scan shows lightweight evidence first. Detailed fitting and tests are deliberate later steps. The UI must distinguish implemented, not-run and proposed features.</p>';
+ c.appendChild(btn('View generic Model Lab shell','smallbtn',function(){setPage('model');})); content.appendChild(c);
+}
+function chart(){
+ var f=node('div',{class:'figure'});f.innerHTML='<div class="kicker">Illustrative distribution shape — not calculated</div><svg viewBox="0 0 400 140" role="img" aria-label="Illustrative histogram and right-skewed density curve"><path d="M20 116H380" stroke="#a2b3cc" stroke-width="2"/><g fill="#a7c5f6"><rect x="40" y="89" width="23" height="27"/><rect x="68" y="65" width="23" height="51"/><rect x="96" y="35" width="23" height="81"/><rect x="124" y="23" width="23" height="93"/><rect x="152" y="39" width="23" height="77"/><rect x="180" y="59" width="23" height="57"/><rect x="208" y="74" width="23" height="42"/><rect x="236" y="88" width="23" height="28"/><rect x="264" y="97" width="23" height="19"/><rect x="292" y="105" width="23" height="11"/></g><path d="M30 113 C80 103 84 17 139 24 C184 28 192 74 255 90 C306 109 341 113 365 115" stroke="#2869d1" stroke-width="3" fill="none"/></svg><p style="font-size:11px;margin:0">The graph is decorative sample evidence. A connected implementation will render plots from the selected analysis result.</p>';return f;
+}
+function methodList(){
+ var col=node('section',{class:'card'}),bar=node('div',{class:'toolbar'});
+ var input=node('input',{type:'search',placeholder:'Find an investigation…','aria-label':'Search investigations',value:search});
+ input.addEventListener('input',function(){search=input.value;updateList();});
+ bar.appendChild(input);
+ var filter=node('label',{});var cb=node('input',{type:'checkbox'});cb.checked=onlyAvailable;cb.addEventListener('change',function(){onlyAvailable=cb.checked;updateList();});filter.appendChild(cb);filter.appendChild(document.createTextNode(' Show partial foundations only'));bar.appendChild(filter);
+ col.appendChild(bar);var list=node('div',{class:'methods',id:'methodList'});col.appendChild(list);
+ return col;
+}
+function updateList(){
+ var list=document.getElementById('methodList');if(!list)return;list.replaceChildren();
+ var relevant=methods.filter(function(m){return m[2]===currentPage && (!onlyAvailable||m[6]==='partial') && (m[1]+' '+m[3]+' '+m[4]).toLowerCase().includes(search.toLowerCase());});
+ if(!relevant.length){list.appendChild(node('p',{},'No matching investigations in this screen.'));return;}
+ relevant.forEach(function(m){
+ var e=btn('','method'+(selected===m[0]?' selected':''),function(){selected=m[0];renderDetail();updateList();});
+ var num=node('span',{class:'num'},String(m[0]));var body=node('span',{});body.innerHTML='<strong>'+esc(m[1])+'</strong><small>'+esc(m[3])+'</small><span class="state '+m[6]+'">'+(m[6]==='partial'?'Partial foundation':'Proposed')+'</span>';e.appendChild(num);e.appendChild(body);list.appendChild(e);
+ });
+}
+function renderDetail(){
+ var target=document.getElementById('methodDetail');if(!target)return;
+ target.replaceChildren();var m=methods.find(function(x){return x[0]===selected;});if(!m||m[2]!==currentPage){target.appendChild(node('p',{},'Select an investigation to inspect its proposed behavior.'));return;}
+ target.appendChild(node('div',{class:'kicker'},'Investigation '+String(m[0]).padStart(2,'0')));
+ target.appendChild(node('h3',{},m[1]));
+ target.appendChild(node('span',{class:'state '+m[6]},m[6]==='partial'?'Some underlying helpers implemented':'Planned / not implemented'));
+ var d=node('dl',{});
+ [['Selected inputs',m[3]],['Measures and views',m[4]],['Suggested investigation',m[5]],['Evidence needed','Dataset identity, chosen variables, sample counts, method settings, figures, uncertainties and analyst decisions']].forEach(function(entry){d.appendChild(node('dt',{},entry[0]));d.appendChild(node('dd',{},entry[1]));});
+ target.appendChild(d);
+ var hint=node('div',{class:'hint'});hint.innerHTML='<strong>Assistant guidance (proposed)</strong><p>'+esc(m[5])+'. A suggestion is not a test result, causal conclusion or automatic model choice.</p>';target.appendChild(hint);
+ if(m[2]==='distributions')target.appendChild(chart());
+ var row=node('div',{class:'toolbar',style:'margin-top:15px'});
+ row.appendChild(btn(plan.includes(selected)?'Added to draft plan':'Add to draft plan','smallbtn primary',function(){if(!plan.includes(selected))plan.push(selected);renderDetail();renderPlan();}));
+ row.appendChild(btn('See screen map','smallbtn',function(){window.location.hash='#'+m[2];}));
+ target.appendChild(row);
+}
+function renderPlan(){
+ var p=document.getElementById('draftPlan');if(!p)return;p.replaceChildren();
+ p.appendChild(node('h3',{},'Investigation notebook — draft plan'));
+ p.appendChild(node('p',{},'Selected investigations are a local in-browser planning list, not executed statistical evidence.'));
+ if(!plan.length){p.appendChild(node('p',{},'No investigations selected yet. Choose one from the catalogue.'));return;}
+ var list=node('div',{class:'notebook'});plan.forEach(function(id){
+ var m=methods.find(function(x){return x[0]===id;});var e=node('div',{class:'note'});e.innerHTML='<b>'+esc(m[1])+'</b><span>'+esc(sections[m[2]].title)+' · Unrun · Analyst review required</span>';list.appendChild(e);
+ });p.appendChild(list);
+ var actions=node('div',{class:'toolbar',style:'margin-top:14px'});
+ actions.appendChild(btn('Export draft plan (.json)','smallbtn',function(){
+ var payload={kind:'statistical-investigation-wireframe-plan',is_demo:true,executed:false,items:plan.map(function(id){var m=methods.find(function(x){return x[0]===id;});return {id:id,name:m[1],panel:m[2],status:'not_run'};})};
+ var blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='investigation-draft-plan.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},1000);
+ }));
+ actions.appendChild(btn('Clear draft plan','smallbtn',function(){plan=[];renderPlan();renderDetail();}));
+ p.appendChild(actions);
+}
+function screen(page){
+ var s=sections[page];heading(s.title,s.subtitle,methods.filter(function(m){return m[2]===page;}).length+' investigation areas');
+ var grid=node('div',{class:'grid2'}),list=methodList(),detail=node('section',{class:'card detail',id:'methodDetail'});grid.appendChild(list);grid.appendChild(detail);content.appendChild(grid);
+ var note=node('section',{class:'card',id:'draftPlan',style:'margin-top:16px'});content.appendChild(note);updateList();renderDetail();renderPlan();
+}
+function model(){
+ heading('General Model Lab','An open shell for model configuration, estimation, diagnostic results and extensible workflows.','Generic · Not a credit-risk model');
+ var grid=node('div',{class:'panels'});
+ [['Model specification','Select response, predictors, family and modelling assumptions.'],['Estimation','Run user-selected methods through reviewed model integrations.'],['Diagnostics','Keep residual, influence, fit and uncertainty evidence alongside the model.'],['Results and export','Record chosen model, dataset, versions, limitations and reproducible outputs.']].forEach(function(x,i){
+ var c=node('section',{class:'panel'});c.innerHTML='<span class="panel-num">EXTENSION SLOT 0'+(i+1)+'</span><h3>'+esc(x[0])+'</h3><p>'+esc(x[1])+'</p><span class="state proposed">UI slot only</span>';grid.appendChild(c);
+ });content.appendChild(grid);
+ var note=node('section',{class:'card',style:'margin-top:16px'});note.innerHTML='<h3>What exists today?</h3><p>The library already exposes an optional, explicitly specified statsmodels OLS helper with selected diagnostics. This prototype does not invoke it. No credit-risk-specific pathways, automatic model selection or general model platform are implied.</p>';content.appendChild(note);
+}
+function render(){content.replaceChildren();if(currentPage==='home')home();else if(currentPage==='model')model();else screen(currentPage);}
+render();
+})();
+</script>
+</body>
+</html>

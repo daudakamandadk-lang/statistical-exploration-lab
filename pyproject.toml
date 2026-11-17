@@ -4,22 +4,19 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "statistical-exploration-lab"
-version = "0.1.0"
-description = "Local descriptive CSV analysis with explicit field roles and offline evidence reports."
+version = "0.3.0"
+description = "Composable table inspection with explicit field roles and reusable result rendering."
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = [
-    "pandas>=2.2,<4",
-    "numpy>=1.24,<3",
-]
+dependencies = ["pandas>=2.0", "numpy>=1.24", "scipy>=1.10", "matplotlib>=3.7", "PyYAML>=6.0"]
+
+[project.optional-dependencies]
+econometrics = ["statsmodels>=0.14,<0.16"]
 
 [project.urls]
 Repository = "https://github.com/daudakamandadk-lang/statistical-exploration-lab"
 Documentation = "https://github.com/daudakamandadk-lang/statistical-exploration-lab/blob/main/docs/README.md"
 Issues = "https://github.com/daudakamandadk-lang/statistical-exploration-lab/issues"
-
-[project.scripts]
-statistical-lab = "statistical_exploration_lab.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Lab: inspect a table",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/inspect_table.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "env": {"PYTHONPATH": "${workspaceFolder}/src"}
+    }
+  ]
+}
